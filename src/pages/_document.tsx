@@ -4,7 +4,7 @@ import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/do
 class MyDocument extends Document {
 	public render() {
 		return (
-			<Html lang="en">
+			<Html lang="en" prefix="og: https://ogp.me/ns#">
 				<Head />
 				<body>
 					<Main />
