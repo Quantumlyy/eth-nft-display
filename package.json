@@ -1,11 +1,11 @@
 {
-  "name": "frontend",
+  "name": "eth-wallet-graph",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "next dev src",
+    "build": "next build src",
+    "start": "next start src",
     "storybook": "start-storybook -p 9009",
     "build-storybook": "build-storybook"
   },
