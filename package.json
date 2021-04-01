@@ -1,0 +1,46 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "storybook": "start-storybook -p 9009",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "next": "10.0.9",
+    "react": "17.0.1",
+    "react-dom": "17.0.1"
+  },
+  "devDependencies": {
+    "@sapphire/eslint-config": "^3.0.2",
+    "@sapphire/prettier-config": "^1.0.8",
+    "@sapphire/ts-config": "^2.1.0",
+    "@storybook/addon-actions": "^6.1.21",
+    "@storybook/addon-controls": "^6.1.21",
+    "@storybook/addon-docs": "^6.1.21",
+    "@storybook/addon-viewport": "^6.1.21",
+    "@storybook/react": "^6.1.21",
+    "@types/node": "^14.14.35",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
+    "autoprefixer": "9",
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "postcss": "7",
+    "prettier": "^2.2.1",
+    "pretty-quick": "^3.1.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
+    "typescript": "^4.2.3"
+  },
+  "prettier": "@sapphire/prettier-config"
+}
