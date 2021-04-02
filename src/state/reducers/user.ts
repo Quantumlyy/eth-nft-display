@@ -15,11 +15,12 @@ export const userSlice = createSlice({
 	reducers: {
 		setAddress: (state, action: PayloadAction<string>) => {
 			state.address = action.payload;
-		}
+		},
+		reset: (_state) => (_state = initialState)
 	}
 });
 
-export const { setAddress } = userSlice.actions;
+export const { setAddress, reset } = userSlice.actions;
 
 export const selectAddress = (state: RootState) => state.user.address;
 
