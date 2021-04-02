@@ -4,6 +4,7 @@ import React from 'react';
 import { EtherscanType, formatEtherscanLink, shortenHex } from 'utils/utils';
 import useENSName from '../hooks/useENSName';
 
+// TODO: get state from redux
 const AccountName: React.FC = () => {
 	const { chainId, account } = useWeb3React<Web3Provider>();
 	const ENSName = useENSName(account);

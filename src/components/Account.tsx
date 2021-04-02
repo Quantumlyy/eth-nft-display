@@ -5,6 +5,7 @@ import { UserRejectedRequestError } from '@web3-react/injected-connector';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { resetUser, setAddress } from 'state/reducers/user';
+import { ActiveStatus } from 'utils/logs';
 import { injected } from '../connectors';
 import AccountName from './AccountName';
 
@@ -28,7 +29,7 @@ const Account: React.FC<AccountProps> = ({ triedToEagerConnect }) => {
 			setConnecting(false);
 			onboarding.current?.stopOnboarding();
 		}
-		console.log(active);
+		ActiveStatus(active);
 	}, [active, error]);
 	useEffect(() => {
 		if (typeof account === 'string') dispatch(setAddress(account));
