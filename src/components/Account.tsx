@@ -4,7 +4,7 @@ import { useWeb3React } from '@web3-react/core';
 import { UserRejectedRequestError } from '@web3-react/injected-connector';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { reset, setAddress } from 'state/reducers/user';
+import { resetUser, setAddress } from 'state/reducers/user';
 import { EtherscanType, formatEtherscanLink, shortenHex } from 'utils/utils';
 import { injected } from '../connectors';
 import useENSName from '../hooks/useENSName';
@@ -34,7 +34,7 @@ const Account: React.FC<AccountProps> = ({ triedToEagerConnect }) => {
 	}, [active, error]);
 	useEffect(() => {
 		if (typeof account === 'string') dispatch(setAddress(account));
-		else dispatch(reset());
+		else dispatch(resetUser());
 	}, [account, dispatch]);
 
 	if (error || !triedToEagerConnect) {

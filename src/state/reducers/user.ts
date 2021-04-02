@@ -16,11 +16,11 @@ export const userSlice = createSlice({
 		setAddress: (state, action: PayloadAction<string>) => {
 			state.address = action.payload;
 		},
-		reset: (_state) => (_state = initialState)
+		resetUser: (_state) => (_state = initialState)
 	}
 });
 
-export const { setAddress, reset } = userSlice.actions;
+export const { setAddress, resetUser } = userSlice.actions;
 
 export const selectAddress = (state: RootState) => state.user.address;
 
