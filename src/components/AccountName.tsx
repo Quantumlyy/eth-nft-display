@@ -1,5 +1,4 @@
-import type { Web3Provider } from '@ethersproject/providers';
-import { useWeb3React } from '@web3-react/core';
+import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setChain } from 'state/reducers/user';
@@ -8,7 +7,7 @@ import useENSName from '../hooks/useENSName';
 
 // TODO: get state from redux
 const AccountName: React.FC = () => {
-	const { chainId, account } = useWeb3React<Web3Provider>();
+	const { chainId, account } = useActiveWeb3React();
 	const ENSName = useENSName(account);
 	const dispatch = useDispatch();
 

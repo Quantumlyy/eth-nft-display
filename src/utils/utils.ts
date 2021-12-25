@@ -7,22 +7,14 @@ export function shortenHex(hex: string, length = 4) {
 	return `${hex.substring(0, length + 2)}…${hex.substring(hex.length - length)}`;
 }
 
-const ETHERSCAN_NAMES: Record<number, string> = {
-	[Chains.EthereumMainnet]: 'ether',
-	3: 'ether',
-	4: 'ether',
-	5: 'ether',
-	42: 'ether',
-	[Chains.PolygonMainnet]: 'polygon'
-};
-
-const ETHERSCAN_PREFIXES: Record<number, string> = {
-	[Chains.EthereumMainnet]: '',
-	3: 'ropsten.',
-	4: 'rinkeby.',
-	5: 'goerli.',
-	42: 'kovan.',
-	[Chains.PolygonMainnet]: ''
+const ETHERSCAN_DOMAINS: Record<number, string> = {
+	[Chains.EthereumMainnet]: 'etherscan.io',
+	3: 'ropsten.etherscan.io',
+	4: 'rinkeby.etherscan.io',
+	5: 'goerli.etherscan.io',
+	42: 'kovan.etherscan.io',
+	[Chains.PolygonMainnet]: 'polygonscan.com',
+	[Chains.AvalancheMainnet]: 'snowtrace.io'
 };
 
 export enum EtherscanType {
@@ -37,15 +29,15 @@ export function formatEtherscanLink(type: EtherscanType, data: EtherscanData) {
 	switch (type) {
 		case EtherscanType.Account: {
 			const [chainId, address] = data;
-			return `https://${ETHERSCAN_PREFIXES[chainId]}${ETHERSCAN_NAMES[chainId]}scan.io/address/${address}`;
+			return `https://${ETHERSCAN_DOMAINS[chainId]}/address/${address}`;
 		}
 		case EtherscanType.Transaction: {
 			const [chainId, hash] = data;
-			return `https://${ETHERSCAN_PREFIXES[chainId]}${ETHERSCAN_NAMES[chainId]}scan.io/tx/${hash}`;
+			return `https://${ETHERSCAN_DOMAINS[chainId]}/tx/${hash}`;
 		}
 		case EtherscanType.Block: {
 			const [chainId, block] = data;
-			return `https://${ETHERSCAN_PREFIXES[chainId]}${ETHERSCAN_NAMES[chainId]}scan.io/block/${block}`;
+			return `https://${ETHERSCAN_DOMAINS[chainId]}/block/${block}`;
 		}
 	}
 }

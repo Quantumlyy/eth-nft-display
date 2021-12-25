@@ -1,7 +1,6 @@
-import type { Web3Provider } from '@ethersproject/providers';
 import MetaMaskOnboarding from '@metamask/onboarding';
-import { useWeb3React } from '@web3-react/core';
 import { UserRejectedRequestError } from '@web3-react/injected-connector';
+import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { resetUser, setAddress } from 'state/reducers/user';
@@ -14,7 +13,7 @@ export interface AccountProps {
 }
 
 const Account: React.FC<AccountProps> = ({ triedToEagerConnect }) => {
-	const { active, error, activate, account, setError } = useWeb3React<Web3Provider>();
+	const { active, error, activate, account, setError } = useActiveWeb3React();
 	// initialize metamask onboarding
 	const onboarding = useRef<MetaMaskOnboarding>();
 	// manage connecting state for injected connector
