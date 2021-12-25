@@ -3,6 +3,7 @@ import { useWeb3React } from '@web3-react/core';
 import useEagerConnect from 'hooks/useEagerConnect';
 import React from 'react';
 import dynamic from 'next/dynamic';
+import Offset from 'components/Navbar/Offset';
 
 const Account = dynamic(() => import('components/Account'), { ssr: false });
 
@@ -14,6 +15,7 @@ export default function Home() {
 
 	return (
 		<div>
+			<Offset />
 			<Account triedToEagerConnect={triedToEagerConnect} />
 
 			{isConnected ? <h1>Hello</h1> : null}

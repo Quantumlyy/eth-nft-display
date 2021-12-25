@@ -16,7 +16,9 @@ const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 		<>
 			<Provider store={store}>
 				<Web3ReactProvider getLibrary={getLibrary}>
+					<WalletData>
 					<Component {...pageProps} />
+					</WalletData>
 				</Web3ReactProvider>
 			</Provider>
 		</>

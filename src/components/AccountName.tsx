@@ -1,25 +1,20 @@
-import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { setChain } from 'state/reducers/user';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectAddress, selectChainId } from 'state/reducers/user';
 import { EtherscanType, formatEtherscanLink, shortenHex } from 'utils/utils';
 import useENSName from '../hooks/useENSName';
 
-// TODO: get state from redux
 const AccountName: React.FC = () => {
-	const { chainId, account } = useActiveWeb3React();
-	const ENSName = useENSName(account);
-	const dispatch = useDispatch();
+	const account = useSelector(selectAddress);
+	const chainId = useSelector(selectChainId);
 
-	useEffect(() => {
-		if (chainId) dispatch(setChain(chainId));
-	}, [chainId, dispatch]);
+	const ENSName = useENSName(account);
 
 	if (!account) return null;
 
 	return (
 		<>
-			<a href={formatEtherscanLink(EtherscanType.Account, [chainId!, account])} target="_blank" rel="noopener noreferrer">
+			<a href={formatEtherscanLink(EtherscanType.Account, [chainId, account])} target="_blank" rel="noopener noreferrer">
 				{ENSName || `${shortenHex(account, 4)}`}
 			</a>
 		</>

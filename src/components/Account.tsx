@@ -2,8 +2,6 @@ import MetaMaskOnboarding from '@metamask/onboarding';
 import { UserRejectedRequestError } from '@web3-react/injected-connector';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { resetUser, setAddress } from 'state/reducers/user';
 import { ActiveStatus } from 'utils/logs';
 import { metamask } from '../connectors';
 import AccountName from './AccountName';
@@ -18,7 +16,6 @@ const Account: React.FC<AccountProps> = ({ triedToEagerConnect }) => {
 	const onboarding = useRef<MetaMaskOnboarding>();
 	// manage connecting state for injected connector
 	const [_, setConnecting] = useState(false);
-	const dispatch = useDispatch();
 
 	useLayoutEffect(() => {
 		onboarding.current = new MetaMaskOnboarding();
@@ -30,10 +27,6 @@ const Account: React.FC<AccountProps> = ({ triedToEagerConnect }) => {
 		}
 		ActiveStatus(active);
 	}, [active, error]);
-	useEffect(() => {
-		if (typeof account === 'string') dispatch(setAddress(account));
-		else dispatch(resetUser());
-	}, [account, dispatch]);
 
 	if (error || !triedToEagerConnect) {
 		return null;
