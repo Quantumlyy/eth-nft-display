@@ -6,7 +6,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { resetUser, setAddress } from 'state/reducers/user';
 import { ActiveStatus } from 'utils/logs';
-import { injected } from '../connectors';
+import { metamask } from '../connectors';
 import AccountName from './AccountName';
 
 export interface AccountProps {
@@ -53,7 +53,7 @@ const Account: React.FC<AccountProps> = ({ triedToEagerConnect }) => {
 					onClick={() => {
 						setConnecting(true);
 
-						activate(injected, undefined, true).catch((error) => {
+						activate(metamask, undefined, true).catch((error) => {
 							// ignore the error if it's a user rejected request
 							if (error instanceof UserRejectedRequestError) {
 								setConnecting(false);
