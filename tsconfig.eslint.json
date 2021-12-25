@@ -6,5 +6,5 @@
 		"checkJs": true
 	},
 	"include": ["scripts", "src", "*.config.js"],
-	"exclude": ["src/next-env.d.ts", "src/next.config.js", "src/next-i18next.config.js"]
+	"exclude": ["src/next-env.d.ts", "src/next.config.js"]
 }

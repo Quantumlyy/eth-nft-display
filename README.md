@@ -1,1 +1,1 @@
-eth-wallet-graph
+eth-nft-display
