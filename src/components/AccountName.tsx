@@ -1,12 +1,10 @@
+import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { selectAddress, selectChainId } from 'state/reducers/user';
 import { EtherscanType, formatEtherscanLink, shortenHex } from 'utils/utils';
 import useENSName from '../hooks/useENSName';
 
 const AccountName: React.FC = () => {
-	const account = useSelector(selectAddress);
-	const chainId = useSelector(selectChainId);
+	const { chainId, account } = useActiveWeb3React();
 
 	const ENSName = useENSName(account);
 
@@ -14,7 +12,7 @@ const AccountName: React.FC = () => {
 
 	return (
 		<>
-			<a href={formatEtherscanLink(EtherscanType.Account, [chainId, account])} target="_blank" rel="noopener noreferrer">
+			<a href={formatEtherscanLink(EtherscanType.Account, [chainId!, account])} target="_blank" rel="noopener noreferrer">
 				{ENSName || `${shortenHex(account, 4)}`}
 			</a>
 		</>

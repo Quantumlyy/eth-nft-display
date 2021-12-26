@@ -3,7 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+    html {
+        @apply dark:bg-black;
+    }
+
     body {
-        @apply dark:bg-dark dark:text-dark-text;
+        @apply min-h-screen dark:text-dark-text;
+
+        background: linear-gradient(25deg, rgba(0,0,0,1) 15%, rgba(0,122,204,1) 59%, rgba(156,31,165,1) 72%, rgba(156,31,165,1) 89%);
     }
 }
