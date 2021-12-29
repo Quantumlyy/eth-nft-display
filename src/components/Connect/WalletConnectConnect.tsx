@@ -1,4 +1,4 @@
-import { UserRejectedRequestError } from '@web3-react/injected-connector';
+import { UserRejectedRequestError } from '@web3-react/walletconnect-connector';
 import { walletConnect } from 'connectors';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React from 'react';
