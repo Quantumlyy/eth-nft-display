@@ -1,7 +1,7 @@
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React from 'react';
 import { EtherscanType, formatEtherscanLink, shortenHex } from 'utils/utils';
-import useENSName from '../hooks/useENSName';
+import useENSName from '../../hooks/useENSName';
 
 const AccountName: React.FC = () => {
 	const { chainId, account } = useActiveWeb3React();
