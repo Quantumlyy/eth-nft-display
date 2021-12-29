@@ -1,4 +1,4 @@
-import { Chains } from 'chains';
+import { SupportedChainId } from 'chains';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export function noop() {}
@@ -8,13 +8,13 @@ export function shortenHex(hex: string, length = 4) {
 }
 
 const ETHERSCAN_DOMAINS: Record<number, string> = {
-	[Chains.EthereumMainnet]: 'etherscan.io',
+	[SupportedChainId.MAINNET]: 'etherscan.io',
 	3: 'ropsten.etherscan.io',
 	4: 'rinkeby.etherscan.io',
 	5: 'goerli.etherscan.io',
 	42: 'kovan.etherscan.io',
-	[Chains.PolygonMainnet]: 'polygonscan.com',
-	[Chains.AvalancheMainnet]: 'snowtrace.io'
+	[SupportedChainId.POLYGON]: 'polygonscan.com'
+	// [SupportedChainId.AvalancheMainnet]: 'snowtrace.io'
 };
 
 export enum EtherscanType {

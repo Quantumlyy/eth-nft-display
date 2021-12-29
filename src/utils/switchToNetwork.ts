@@ -3,11 +3,11 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { hexStripZeros } from '@ethersproject/bytes';
 import type { Web3Provider } from '@ethersproject/providers';
-import type { Chains } from 'chains';
+import { CHAIN_INFO, SupportedChainId } from 'chains';
 
 interface SwitchNetworkArguments {
 	library?: Web3Provider;
-	chainId: Chains;
+	chainId: SupportedChainId;
 }
 
 export async function switchToNetwork({ library, chainId }: SwitchNetworkArguments) {
@@ -20,8 +20,36 @@ export async function switchToNetwork({ library, chainId }: SwitchNetworkArgumen
 			method: 'wallet_switchEthereumChain',
 			params: [{ chainId: formattedChainId }]
 		});
-	} catch (error) {
-		// TODO: Implement chain add request
-		throw error;
+	} catch (error: any) {
+		// 4902 is the error code for attempting to switch to an unrecognized chainId
+		if (error.code === 4902) {
+			const info = CHAIN_INFO[chainId];
+
+			await library.provider.request({
+				method: 'wallet_addEthereumChain',
+				params: [
+					{
+						chainId: formattedChainId,
+						chainName: info.label,
+						rpcUrls: [info.addNetworkInfo.rpcUrl],
+						nativeCurrency: info.addNetworkInfo.nativeCurrency,
+						blockExplorerUrls: [info.explorer]
+					}
+				]
+			});
+			// metamask (only known implementer) automatically switches after a network is added
+			// the second call is done here because that behavior is not a part of the spec and cannot be relied upon in the future
+			// metamask's behavior when switching to the current network is just to return null (a no-op)
+			try {
+				await library.provider.request({
+					method: 'wallet_switchEthereumChain',
+					params: [{ chainId: formattedChainId }]
+				});
+			} catch (ierror) {
+				console.debug('Added network but could not switch chains', ierror);
+			}
+		} else {
+			throw error;
+		}
 	}
 }

@@ -1,21 +1,17 @@
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
-import { Chains } from 'chains';
-
-export const supportedChainIds: number[] = [
-	Chains.EthereumMainnet, // Mainet
-	Chains.PolygonMainnet // Matic/Polygon
-];
+import { ALL_SUPPORTED_CHAIN_IDS, SupportedChainId } from 'chains';
 
 export const metamask = new InjectedConnector({
-	supportedChainIds
+	supportedChainIds: ALL_SUPPORTED_CHAIN_IDS
 });
 
 export const walletConnect = new WalletConnectConnector({
-	supportedChainIds,
+	supportedChainIds: ALL_SUPPORTED_CHAIN_IDS,
 	rpc: {
-		[Chains.EthereumMainnet]: process.env.NEXT_PUBLIC_ETHEREUM_MAINNET_HTTP as string,
-		[Chains.PolygonMainnet]: process.env.NEXT_PUBLIC_POLYGON_MAINNET_HTTP as string
+		[SupportedChainId.MAINNET]: process.env.NEXT_PUBLIC_MAINNET_HTTP as string,
+		[SupportedChainId.POLYGON]: process.env.NEXT_PUBLIC_POLYGON_HTTP as string,
+		[SupportedChainId.OPTIMISM]: process.env.NEXT_PUBLIC_OPTIMISM_HTTP as string
 	},
 	qrcode: true
 });
