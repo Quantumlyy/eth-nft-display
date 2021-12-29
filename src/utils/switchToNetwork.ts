@@ -6,7 +6,7 @@ import type { Web3Provider } from '@ethersproject/providers';
 import type { Chains } from 'chains';
 
 interface SwitchNetworkArguments {
-	library: Web3Provider;
+	library?: Web3Provider;
 	chainId: Chains;
 }
 
