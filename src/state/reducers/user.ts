@@ -3,10 +3,12 @@ import type { RootState } from '../index';
 
 interface UserState {
 	connecting: boolean;
+	triedEager: boolean;
 }
 
 const initialState: UserState = {
-	connecting: false
+	connecting: false,
+	triedEager: false
 };
 
 export const userSlice = createSlice({
@@ -16,12 +18,15 @@ export const userSlice = createSlice({
 		setConnectingStatus: (state, action: PayloadAction<boolean>) => {
 			state.connecting = action.payload;
 		},
-		resetUser: (_state) => (_state = initialState)
+		setEagerAttempt: (state, action: PayloadAction<boolean>) => {
+			state.triedEager = action.payload;
+		}
 	}
 });
 
-export const { setConnectingStatus, resetUser } = userSlice.actions;
+export const { setConnectingStatus, setEagerAttempt } = userSlice.actions;
 
 export const selectConnectingStatus = (state: RootState) => state.user.connecting;
+export const selectEagerAttempt = (state: RootState) => state.user.triedEager;
 
 export default userSlice.reducer;

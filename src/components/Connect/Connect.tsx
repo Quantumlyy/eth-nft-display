@@ -1,15 +1,26 @@
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dialog, Transition } from '@headlessui/react';
-import React, { Fragment, useRef } from 'react';
+import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
+import useEagerConnect from 'hooks/useEagerConnect';
+import React, { Fragment, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectConnectingStatus, setConnectingStatus } from 'state/reducers/user';
+import { selectConnectingStatus, setConnectingStatus, setEagerAttempt } from 'state/reducers/user';
+import MetamaskConnect from './MetamaskConnect';
+import WalletConnectConnect from './WalletConnectConnect';
 
 const Connect: React.FC = () => {
 	const dispatch = useDispatch();
+	const { active } = useActiveWeb3React();
+	const triedToEagerConnect = useEagerConnect();
 	const open = useSelector(selectConnectingStatus);
 
 	const closeButtonRef = useRef(null);
+
+	useEffect(() => {
+		dispatch(setEagerAttempt(triedToEagerConnect));
+		dispatch(setConnectingStatus(!active));
+	}, [triedToEagerConnect, active, dispatch]);
 
 	return (
 		<>
@@ -42,18 +53,24 @@ const Connect: React.FC = () => {
 								leaveFrom="opacity-100 translate-y-0 sm:scale-100"
 								leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
 							>
-								<div className="z-50 inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-									<div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-										<div className="sm:flex sm:items-start">
-											<div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-												<Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+								<div className="z-50 inline-block rounded-lg text-left overflow-hidden shadow-xl transform transition-all align-middle">
+									<div className="bg-gray-700 p-4 w-4/12">
+										<div className="flex items-start">
+											<div className="mt-0 text-left">
+												<Dialog.Title as="span" className="min-w-full text-lg leading-6 text-white font-bold">
 													Connect a wallet
-													<button type="button" onClick={() => dispatch(setConnectingStatus(false))} ref={closeButtonRef}>
+													<button
+														type="button"
+														className="float-right"
+														onClick={() => dispatch(setConnectingStatus(false))}
+														ref={closeButtonRef}
+													>
 														<FontAwesomeIcon icon={faTimes} />
 													</button>
 												</Dialog.Title>
-												<div className="mt-2">
-													<p className="text-sm text-gray-500">Tesr</p>
+												<div className="mt-2 w-full">
+													<MetamaskConnect />
+													<WalletConnectConnect />
 												</div>
 											</div>
 										</div>
