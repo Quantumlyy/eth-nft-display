@@ -11,6 +11,8 @@ import 'styles/_App.css';
 
 import { config, dom } from '@fortawesome/fontawesome-svg-core';
 import Head from 'next/head';
+import { ApolloProvider } from '@apollo/client';
+import { client } from 'client';
 config.autoAddCss = false;
 
 const getLibrary = (provider: ExternalProvider | JsonRpcFetchFunc) => {
@@ -20,23 +22,25 @@ const getLibrary = (provider: ExternalProvider | JsonRpcFetchFunc) => {
 const App: NextPage<AppProps> = ({ Component, pageProps }) => {
 	return (
 		<>
-			<Provider store={store}>
-				<Web3ReactProvider getLibrary={getLibrary}>
-					<Head>
-						{/* This fixes big icons with next-seo since CSS is somehow overwritten*/}
-						<style>{dom.css()}</style>
-					</Head>
-					<>
-						<Connect />
-						<header>
-							<Navbar />
-						</header>
-						<main className="dark:bg-gray-900 dark:text-white min-h-screen">
-							<Component {...pageProps} />
-						</main>
-					</>
-				</Web3ReactProvider>
-			</Provider>
+			<ApolloProvider client={client}>
+				<Provider store={store}>
+					<Web3ReactProvider getLibrary={getLibrary}>
+						<Head>
+							{/* This fixes big icons with next-seo since CSS is somehow overwritten*/}
+							<style>{dom.css()}</style>
+						</Head>
+						<>
+							<Connect />
+							<header>
+								<Navbar />
+							</header>
+							<main className="dark:bg-gray-900 dark:text-white min-h-screen">
+								<Component {...pageProps} />
+							</main>
+						</>
+					</Web3ReactProvider>
+				</Provider>
+			</ApolloProvider>
 		</>
 	);
 };
