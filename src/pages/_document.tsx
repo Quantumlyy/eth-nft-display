@@ -6,7 +6,7 @@ class MyDocument extends Document {
 		return (
 			<Html lang="en" prefix="og: https://ogp.me/ns#">
 				<Head />
-				<body>
+				<body className="dark">
 					<Main />
 					<NextScript />
 				</body>

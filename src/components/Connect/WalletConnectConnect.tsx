@@ -12,8 +12,9 @@ const WalletConnectConnect: React.FC = () => {
 
 	return (
 		<>
-			<div className="text-white p-4 m-4 bg-gray-400 border-4 border-gray-600 rounded-lg">
+			<div className="m-4">
 				<button
+					className="dark:text-gray-50 border dark:border-gray-600 dark:border-opacity-40 dark:bg-gray-800 transition-colors duration-300 ease-in-out dark:hover:bg-pink-900 dark:hover:border-pink-800 p-2 m-auto rounded-lg w-full"
 					onClick={() => {
 						activate(walletConnect, undefined, true).catch((error) => {
 							// ignore the error if it's a user rejected request
