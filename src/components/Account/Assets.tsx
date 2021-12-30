@@ -7,7 +7,7 @@ import React from 'react';
 import Token from './Token';
 
 const GET_ASSETS = gql`
-	query GetEIP721Assets($owner: String!) {
+	query GetEthereumEIP721Assets($owner: String!) {
 		account(id: $owner) {
 			id
 			tokens {
@@ -32,7 +32,7 @@ const Assets: React.FC<AssetsProps> = ({ address }) => {
 	const resolvedAddress = useENSDomain(address);
 	const { account } = useActiveWeb3React();
 	const { data, loading } = useQuery<EIP721Response<'account'>>(GET_ASSETS, {
-		variables: { owner: (resolvedAddress ?? address ?? account ?? '').toLowerCase() }
+		variables: { owner: (resolvedAddress || address || account || '').toLowerCase() }
 	});
 
 	if ((!data || !data.account) && !loading) return null;
