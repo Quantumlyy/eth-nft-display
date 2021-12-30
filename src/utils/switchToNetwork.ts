@@ -3,7 +3,7 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { hexStripZeros } from '@ethersproject/bytes';
 import type { Web3Provider } from '@ethersproject/providers';
-import { CHAIN_INFO, SupportedChainId } from 'chains';
+import { CHAIN_INFO, SupportedChainId } from 'constants/chains';
 
 interface SwitchNetworkArguments {
 	library?: Web3Provider;

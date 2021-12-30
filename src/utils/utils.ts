@@ -1,4 +1,4 @@
-import { SupportedChainId } from 'chains';
+import { SupportedChainId } from 'constants/chains';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export function noop() {}

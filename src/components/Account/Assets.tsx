@@ -23,10 +23,14 @@ const GET_ASSETS = gql`
 	}
 `;
 
-const Assets: React.FC = () => {
+export interface AssetsProps {
+	address?: string;
+}
+
+const Assets: React.FC<AssetsProps> = ({ address }) => {
 	const { account } = useActiveWeb3React();
 	const { data, loading } = useQuery<EIP721Response<'account'>>(GET_ASSETS, {
-		variables: { owner: (account ?? '').toLowerCase() }
+		variables: { owner: (address ?? account ?? '').toLowerCase() }
 	});
 
 	return (
