@@ -25,7 +25,9 @@ const GET_ASSETS = gql`
 
 const Assets: React.FC = () => {
 	const { account } = useActiveWeb3React();
-	const { data, loading } = useQuery<EIP721Response<'account'>>(GET_ASSETS, { variables: { owner: (account ?? '').toLowerCase() } });
+	const { data, loading } = useQuery<EIP721Response<'account'>>(GET_ASSETS, {
+		variables: { owner: (account ?? '').toLowerCase() }
+	});
 
 	return (
 		<>

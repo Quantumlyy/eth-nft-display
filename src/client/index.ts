@@ -1,8 +1,9 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import type { Query } from '@subgraphs/eip721';
+import { baseLink } from './links';
 
 export const client = new ApolloClient({
-	uri: 'https://api.thegraph.com/subgraphs/name/amxx/eip721-subgraph',
+	link: baseLink,
 	cache: new InMemoryCache()
 });
 
