@@ -1,10 +1,11 @@
 import type { Token as EIP721Token } from '@subgraphs/eip721';
+import MultiSourceImage from 'components/MultiSourceImage';
 import { EIP721_TOKEN_URI_ABI } from 'constants/abis';
 import { Contract } from 'ethers';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React, { useEffect, useState } from 'react';
 import type { BaseOSMetadata } from 'types/metadata';
-import { ipfsProxied } from 'utils/ipfs';
+import { resolveIPFS } from 'utils/ipfs';
 
 export interface TokenProps {
 	token: EIP721Token;
@@ -26,7 +27,7 @@ const Token: React.FC<TokenProps> = ({ token }) => {
 			let uri: string = await contract.tokenURI(token.identifier);
 			const uriStructure = new URL(uri);
 			if (uriStructure.protocol === 'ipfs:') {
-				uri = ipfsProxied('https://ipfs.io/ipfs/', uri);
+				uri = resolveIPFS(uri);
 			}
 
 			if (uriStructure.protocol === 'data:') {
@@ -62,11 +63,8 @@ const Token: React.FC<TokenProps> = ({ token }) => {
 					{token.registry.symbol} - #{token.identifier}
 				</h3>
 				<div>
-					{metadata ? (
-						<img
-							src={new URL(metadata.image).protocol === 'ipfs:' ? ipfsProxied('https://ipfs.io/ipfs/', metadata.image) : metadata.image}
-							className="max-h-32"
-						/>
+					{metadata?.image || metadata?.image_url ? (
+						<MultiSourceImage src={metadata.image! || metadata.image_url!} className="max-h-32" />
 					) : null}
 				</div>
 			</div>

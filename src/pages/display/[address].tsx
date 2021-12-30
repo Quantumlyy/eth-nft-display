@@ -9,13 +9,15 @@ const AssetsDisplay: NextPage = () => {
 	const router = useRouter();
 	const isConnected = useConnectionActive();
 
+	const address = Array.isArray(router.query.address) ? router.query.address[0] : router.query.address;
+
 	return (
 		<div>
 			<Offset />
 			{isConnected ? (
 				<>
 					<h1>Hello</h1>
-					<Assets address={Array.isArray(router.query.address) ? router.query.address[0] : router.query.address} />
+					<Assets address={address} />
 				</>
 			) : null}
 		</div>

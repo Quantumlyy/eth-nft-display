@@ -2,30 +2,30 @@ import { useEffect, useState } from 'react';
 import { noop } from 'utils/utils';
 import useAlchemyProviders from './useAlchemyProviders';
 
-export default function useENSName(address?: string | null) {
+export default function useENSDomain(ENSName?: string | null) {
 	const { mainnet } = useAlchemyProviders();
-	const [ENSName, setENSName] = useState('');
+	const [address, setAddress] = useState('');
 
 	// @ts-expect-error Not all code paths return a value.
 	useEffect(() => {
-		if (mainnet && typeof address === 'string') {
+		if (mainnet && typeof ENSName === 'string') {
 			let stale = false;
 
 			mainnet
-				.lookupAddress(address)
-				.then((name) => {
-					if (!stale && typeof name === 'string') {
-						setENSName(name);
+				.resolveName(ENSName)
+				.then((addr) => {
+					if (!stale && typeof addr === 'string') {
+						setAddress(addr);
 					}
 				})
 				.catch(noop);
 
 			return () => {
 				stale = true;
-				setENSName('');
+				setAddress('');
 			};
 		}
-	}, [mainnet, address]);
+	}, [mainnet, ENSName]);
 
-	return ENSName;
+	return address;
 }

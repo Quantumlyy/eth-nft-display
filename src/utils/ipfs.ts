@@ -1,3 +1,3 @@
-export function ipfsProxied(proxy: string, ipfs: string) {
-	return `${proxy}${ipfs.split('ipfs://')[1]}`;
+export function resolveIPFS(ipfs: string) {
+	return `${process.env.NEXT_PUBLIC_IPFS_RESOLVER}${ipfs.split('ipfs://')[1]}`;
 }

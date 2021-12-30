@@ -21,6 +21,12 @@ export const L2_CHAIN_IDS = [SupportedChainId.OPTIMISM] as const;
 
 export type SupportedL2ChainId = typeof L2_CHAIN_IDS[number];
 
+export const ALCHEMY_NETWORK_URLS: { [key in SupportedChainId]: string } = {
+	[SupportedChainId.MAINNET]: `https://eth-mainnet.alchemyapi.io/v2/${process.env.NEXT_PUBLIC_MAINNET_KEY}`,
+	[SupportedChainId.OPTIMISM]: `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_OPTIMISM_KEY}`,
+	[SupportedChainId.POLYGON]: `https://opt-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_POLYGON_KEY}`
+};
+
 /**
  * This is used to call the add network RPC
  */

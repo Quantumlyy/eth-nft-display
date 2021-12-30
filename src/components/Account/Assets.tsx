@@ -2,6 +2,7 @@ import { gql, useQuery } from '@apollo/client';
 import type { Account, Token as EIP721Token } from '@subgraphs/eip721';
 import type { EIP721Response } from 'client';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
+import useENSDomain from 'hooks/useENSDomain';
 import React from 'react';
 import Token from './Token';
 
@@ -28,10 +29,13 @@ export interface AssetsProps {
 }
 
 const Assets: React.FC<AssetsProps> = ({ address }) => {
+	const resolvedAddress = useENSDomain(address);
 	const { account } = useActiveWeb3React();
 	const { data, loading } = useQuery<EIP721Response<'account'>>(GET_ASSETS, {
-		variables: { owner: (address ?? account ?? '').toLowerCase() }
+		variables: { owner: (resolvedAddress ?? address ?? account ?? '').toLowerCase() }
 	});
+
+	if ((!data || !data.account) && !loading) return null;
 
 	return (
 		<>
@@ -40,9 +44,11 @@ const Assets: React.FC<AssetsProps> = ({ address }) => {
 					<span>Loading</span>
 				) : (
 					<>
-						{(data.account as Account).tokens.map((token: EIP721Token) => (
-							<Token token={token} />
-						))}
+						<div className="flex flex-wrap">
+							{(data.account as Account).tokens.map((token: EIP721Token) => (
+								<Token token={token} />
+							))}
+						</div>
 					</>
 				)}
 			</div>

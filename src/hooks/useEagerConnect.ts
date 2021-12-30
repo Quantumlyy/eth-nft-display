@@ -2,7 +2,7 @@ import { metamask } from 'connectors';
 import { useEffect, useState } from 'react';
 import { useActiveWeb3React } from './useActiveWeb3React';
 
-const useEagerConnect = (): boolean => {
+export default function useEagerConnect(): boolean {
 	const { activate, active } = useActiveWeb3React();
 
 	const [tried, setTried] = useState(false);
@@ -27,6 +27,4 @@ const useEagerConnect = (): boolean => {
 	}, [tried, active]);
 
 	return tried;
-};
-
-export default useEagerConnect;
+}
