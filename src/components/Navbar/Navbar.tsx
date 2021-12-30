@@ -1,3 +1,4 @@
+import AccountName from 'components/Account/AccountName';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import Link from 'next/link';
 import React from 'react';
@@ -36,6 +37,9 @@ const Navbar: React.FC = () => {
 												Connect wallet
 											</span>
 										</button>
+										<div hidden={!active}>
+											<AccountName />
+										</div>
 									</div>
 								</div>
 							</div>

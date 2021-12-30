@@ -4,14 +4,22 @@ import React from 'react';
 import Offset from 'components/Navbar/Offset';
 import { gql, useQuery } from '@apollo/client';
 import type { EIP721Response } from 'client';
+import type { Account, Token as EIP721Token } from '@subgraphs/eip721';
+import Token from 'components/Account/Token';
 
 const GET_ASSETS = gql`
 	query GetEIP721Assets($owner: String!) {
 		account(id: $owner) {
 			id
-			token {
+			tokens {
 				id
 				uri
+				identifier
+				registry {
+					id
+					name
+					symbol
+				}
 			}
 		}
 	}
@@ -22,14 +30,28 @@ export default function Home() {
 
 	const isConnected = typeof account === 'string' && Boolean(library);
 
-	const { data } = useQuery<EIP721Response<'account'>>(GET_ASSETS, { variables: { owner: (account ?? '').toLowerCase() } });
+	const { data, loading } = useQuery<EIP721Response<'account'>>(GET_ASSETS, { variables: { owner: (account ?? '').toLowerCase() } });
 	console.log(data);
 
 	return (
 		<div>
 			<Offset />
-			Yeet
-			{isConnected ? <h1>Hello</h1> : null}
+			{isConnected ? (
+				<>
+					<h1>Hello</h1>
+					<div>
+						{loading || !data ? (
+							<span>Loading</span>
+						) : (
+							<>
+								{(data.account as Account).tokens.map((token: EIP721Token) => (
+									<Token token={token} />
+								))}
+							</>
+						)}
+					</div>
+				</>
+			) : null}
 		</div>
 	);
 }
