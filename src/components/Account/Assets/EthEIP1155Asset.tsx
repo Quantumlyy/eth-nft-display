@@ -15,7 +15,7 @@ export interface EthEIP1155AssetProps {
 const EthEIP1155Asset: React.FC<EthEIP1155AssetProps> = ({ token }) => {
 	const { library } = useActiveWeb3React();
 	const [valid, setValid] = useState(true);
-	const [symbol, setSymbol] = useState('');
+	const [collection, setCollection] = useState('');
 	const [metadata, setMetadata] = useState<BaseOSMetadata>();
 
 	useEffect(() => {
@@ -55,7 +55,7 @@ const EthEIP1155Asset: React.FC<EthEIP1155AssetProps> = ({ token }) => {
 			}
 
 			try {
-				setSymbol(await contract.symbol());
+				if (!metadata?.name) setCollection(await contract.name());
 			} catch {}
 		}
 
@@ -65,7 +65,7 @@ const EthEIP1155Asset: React.FC<EthEIP1155AssetProps> = ({ token }) => {
 
 	if (!valid) return null;
 
-	return <Token id={token.identifier} symbol={symbol || metadata?.name || ''} image={metadata?.image || metadata?.image_url} />;
+	return <Token collection={metadata?.name || collection || ''} image={metadata?.image || metadata?.image_url} />;
 };
 
 export default EthEIP1155Asset;

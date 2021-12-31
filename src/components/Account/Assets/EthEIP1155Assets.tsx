@@ -37,19 +37,15 @@ const EthEIP1155Assets: React.FC<EthEIP1155AssetsProps> = ({ address }) => {
 
 	return (
 		<>
-			<div>
-				{loading || !data ? (
-					<span>Loading</span>
-				) : (
-					<>
-						<div className="flex flex-wrap">
-							{(data.account as Account).balances.map((bal: Balance) => (
-								<EthEIP1155Asset token={bal.token} key={bal.id} />
-							))}
-						</div>
-					</>
-				)}
-			</div>
+			{loading || !data ? (
+				<span>Loading</span>
+			) : (
+				<>
+					{(data.account as Account).balances.map((bal: Balance) => (
+						<EthEIP1155Asset token={bal.token} key={bal.id} />
+					))}
+				</>
+			)}
 		</>
 	);
 };

@@ -35,19 +35,15 @@ const EthEIP721Assets: React.FC<EthEIP721AssetsProps> = ({ address }) => {
 
 	return (
 		<>
-			<div>
-				{loading || !data ? (
-					<span>Loading</span>
-				) : (
-					<>
-						<div className="flex flex-wrap">
-							{(data.account as Account).tokens.map((token: EIP721Token) => (
-								<EthEIP721Asset token={token} key={token.id} />
-							))}
-						</div>
-					</>
-				)}
-			</div>
+			{loading || !data ? (
+				<span>Loading</span>
+			) : (
+				<>
+					{(data.account as Account).tokens.map((token: EIP721Token) => (
+						<EthEIP721Asset token={token} key={token.id} />
+					))}
+				</>
+			)}
 		</>
 	);
 };

@@ -14,6 +14,7 @@ export interface EthEIP721AssetProps {
 const EthEIP721Asset: React.FC<EthEIP721AssetProps> = ({ token }) => {
 	const { library } = useActiveWeb3React();
 	const [valid, setValid] = useState(true);
+	const [collection, setCollection] = useState('');
 	const [metadata, setMetadata] = useState<BaseOSMetadata>();
 
 	useEffect(() => {
@@ -45,6 +46,10 @@ const EthEIP721Asset: React.FC<EthEIP721AssetProps> = ({ token }) => {
 					.then((res) => res.json())
 					.then(setMetadata);
 			}
+
+			try {
+				if (!token.registry.name) setCollection(await contract.name());
+			} catch {}
 		}
 
 		void logic();
@@ -53,7 +58,7 @@ const EthEIP721Asset: React.FC<EthEIP721AssetProps> = ({ token }) => {
 
 	if (!valid) return null;
 
-	return <Token id={token.identifier} symbol={token.registry.symbol || ''} image={metadata?.image || metadata?.image_url} />;
+	return <Token collection={token.registry.name || collection} image={metadata?.image || metadata?.image_url} />;
 };
 
 export default EthEIP721Asset;
