@@ -4,7 +4,7 @@ import type { EthEIP721Response } from 'client';
 import React from 'react';
 import EthEIP721Asset from './EthEIP721Asset';
 
-const GET_ASSETS = gql`
+const GET_ETH_EIP721_ASSETS = gql`
 	query GetEthereumEIP721Assets($owner: String!) {
 		account(id: $owner) {
 			id
@@ -27,7 +27,7 @@ export interface EthEIP721AssetsProps {
 }
 
 const EthEIP721Assets: React.FC<EthEIP721AssetsProps> = ({ address }) => {
-	const { data, loading } = useQuery<EthEIP721Response<'account'>>(GET_ASSETS, {
+	const { data, loading } = useQuery<EthEIP721Response<'account'>>(GET_ETH_EIP721_ASSETS, {
 		variables: { owner: address }
 	});
 

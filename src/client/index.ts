@@ -9,4 +9,4 @@ export const client = new ApolloClient({
 });
 
 export type EthEIP721Response<K extends keyof Omit<EthEIP721Query, '__typename'>> = Record<K, Omit<EthEIP721Query[K], '__typename'>>;
-export type EthEIP1155esponse<K extends keyof Omit<EthEIP1155Query, '__typename'>> = Record<K, Omit<EthEIP1155Query[K], '__typename'>>;
+export type EthEIP1155Response<K extends keyof Omit<EthEIP1155Query, '__typename'>> = Record<K, Omit<EthEIP1155Query[K], '__typename'>>;

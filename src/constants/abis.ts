@@ -37,3 +37,26 @@ export const EIP721_BASIC_ABI = [
 		type: 'function'
 	}
 ];
+
+export const EIP1155_BASIC_ABI = [
+	...TOKEN_BASE_ABI,
+	{
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: '_id',
+				type: 'uint256'
+			}
+		],
+		name: 'uri',
+		outputs: [
+			{
+				internalType: 'string',
+				name: '',
+				type: 'string'
+			}
+		],
+		stateMutability: 'view',
+		type: 'function'
+	}
+];

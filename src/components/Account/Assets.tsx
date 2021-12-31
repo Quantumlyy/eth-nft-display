@@ -1,6 +1,7 @@
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import useENSDomain from 'hooks/useENSDomain';
 import React from 'react';
+import EthEIP1155Assets from './Assets/EthEIP1155Assets';
 import EthEIP721Assets from './Assets/EthEIP721Assets';
 
 export interface AssetsProps {
@@ -16,6 +17,7 @@ const Assets: React.FC<AssetsProps> = ({ address }) => {
 		<>
 			<div>
 				<EthEIP721Assets address={sortedAddress} />
+				<EthEIP1155Assets address={sortedAddress} />
 			</div>
 		</>
 	);
