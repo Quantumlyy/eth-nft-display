@@ -16,6 +16,11 @@ module.exports = {
 					700: '#242526',
 					800: '#191a1b',
 					900: '#131214'
+				},
+				chain: {
+					ethereum: '#627eea',
+					polygon: '#8247e5',
+					optimism: '#ff3856'
 				}
 			}
 		}

@@ -1,8 +1,9 @@
 import { gql, useQuery } from '@apollo/client';
 import type { Account, Token as EIP721Token } from '@subgraphs/eip721';
 import type { EthEIP721Response } from 'client';
+import { Subgraph } from 'client/graphprotocol/subgraphs';
 import React from 'react';
-import EthEIP721Asset from './EthEIP721Asset';
+import MainnetEIP721Asset from './MainnetEIP721Asset';
 
 const GET_ETH_EIP721_ASSETS = gql`
 	query GetEthereumEIP721Assets($owner: String!) {
@@ -22,13 +23,14 @@ const GET_ETH_EIP721_ASSETS = gql`
 	}
 `;
 
-export interface EthEIP721AssetsProps {
+export interface MainnetEIP721AssetsProps {
 	address: string;
 }
 
-const EthEIP721Assets: React.FC<EthEIP721AssetsProps> = ({ address }) => {
+const MainnetEIP721Assets: React.FC<MainnetEIP721AssetsProps> = ({ address }) => {
 	const { data, loading } = useQuery<EthEIP721Response<'account'>>(GET_ETH_EIP721_ASSETS, {
-		variables: { owner: address }
+		variables: { owner: address },
+		context: { subgraph: Subgraph.MAINNET_EIP721 }
 	});
 
 	if ((!data || !data.account) && !loading) return null;
@@ -40,7 +42,7 @@ const EthEIP721Assets: React.FC<EthEIP721AssetsProps> = ({ address }) => {
 			) : (
 				<>
 					{(data.account as Account).tokens.map((token: EIP721Token) => (
-						<EthEIP721Asset token={token} key={token.id} />
+						<MainnetEIP721Asset token={token} key={token.id} />
 					))}
 				</>
 			)}
@@ -48,4 +50,4 @@ const EthEIP721Assets: React.FC<EthEIP721AssetsProps> = ({ address }) => {
 	);
 };
 
-export default EthEIP721Assets;
+export default MainnetEIP721Assets;

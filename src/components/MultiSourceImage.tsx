@@ -12,7 +12,7 @@ const MultiSourceImage: React.FC<MultiSourceImageProps> = ({ src: uri, className
 
 	if (uriStructure.protocol === 'ipfs:') uri = resolveIPFS(uri);
 
-	return <img src={uri} className={className} alt={alt} />;
+	return <img src={uri} className={className} alt={alt} loading="lazy" />;
 };
 
 export default MultiSourceImage;

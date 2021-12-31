@@ -2826,6 +2826,13 @@
     resolve-from "^5.0.0"
     store2 "^2.12.0"
 
+"@subgraphs/eip1155-matic@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@subgraphs/eip1155-matic/-/eip1155-matic-1.0.1.tgz#afc649e8972f33691a69057c46d8b84dfa95f9ae"
+  integrity sha512-Me20aOZh51m9oXxfP7jXEQX2XmUl/X5xAhShhdl1EDVksMfBGh0dZkv8ILZ8yBiXl3m4rD4BbTsMs21dz7Tr4A==
+  dependencies:
+    graphql "^16.0.1"
+
 "@subgraphs/eip1155@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@subgraphs/eip1155/-/eip1155-1.0.1.tgz#359cd238bff48bcbbd490ddb7a17e1dbe4762d8d"
@@ -2833,10 +2840,24 @@
   dependencies:
     graphql "^16.0.1"
 
+"@subgraphs/eip721-matic@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@subgraphs/eip721-matic/-/eip721-matic-1.0.1.tgz#52b912092049bb4af110f8361719dd87e7ebda5f"
+  integrity sha512-hwpXOaMfBLDTUz7DYfkkUYzFZgDViTKah4zo4yVNtiSc9XE4Brlwg/FlbrBXJL+qSb6jOSTx3Ex4H/t/e8ql6w==
+  dependencies:
+    graphql "^16.0.1"
+
 "@subgraphs/eip721@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@subgraphs/eip721/-/eip721-1.0.1.tgz#54523b3cc765cefa59eaefdb36dada67e43dca9a"
   integrity sha512-JKOVgq0ot4wrSssG+pzhBWP/mSjYMc8oR6l5qEAv9nFw6XiOQyscwRj3tYwyvsWcJrJHnQcxMZDtapAQHpMkkw==
+  dependencies:
+    graphql "^16.0.1"
+
+"@subgraphs/non-standard-nfts@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@subgraphs/non-standard-nfts/-/non-standard-nfts-1.0.1.tgz#03ad550c672a748bacc32b27c38dda8421fb9ed7"
+  integrity sha512-G+afN2u3biv4N43IM51qzcXre0CUj0RsLYOFM3CrvyABPb8uIQ4+Cd/6hW+y0DYcpPlX2Zuf3nqU91bx/XhPRw==
   dependencies:
     graphql "^16.0.1"
 

@@ -1,43 +1,40 @@
 import type { Token as EIP1155Token } from '@subgraphs/eip1155';
 import { EIP1155_BASIC_ABI } from 'constants/abis';
-import { EthOpenSeaSharedStorefront } from 'constants/quirks';
+import { SupportedChainId } from 'constants/chains';
 import { Contract } from 'ethers';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
+import useAlchemyProviders from 'hooks/useAlchemyProviders';
 import React, { useEffect, useState } from 'react';
 import type { BaseOSMetadata } from 'types/metadata';
-import { replaceIPFSGateway, resolveIPFS } from 'utils/ipfs';
-import Token from '../Token';
+import { EthOpenSeaSharedStorefront } from 'utils/quirks';
+import { quirkIPFSGateway, quirkIPFSProtocol } from 'utils/quirks/ipfs';
+import Token, { ChainIndicator } from '../Token';
 
-export interface EthEIP1155AssetProps {
+export interface MainnetEIP1155AssetProps {
 	token: EIP1155Token;
 }
 
-const EthEIP1155Asset: React.FC<EthEIP1155AssetProps> = ({ token }) => {
-	const { library } = useActiveWeb3React();
+const MainnetEIP1155Asset: React.FC<MainnetEIP1155AssetProps> = ({ token }) => {
+	const { library, chainId } = useActiveWeb3React();
+	const { mainnet } = useAlchemyProviders();
 	const [valid, setValid] = useState(true);
 	const [collection, setCollection] = useState('');
 	const [metadata, setMetadata] = useState<BaseOSMetadata>();
 
 	useEffect(() => {
 		async function logic() {
-			if (!token.registry.id || !token.identifier || !library) {
+			if (!token.registry.id || !token.identifier || !library || !chainId) {
 				setValid(false);
 				return;
 			}
 
-			const contract = new Contract(token.registry.id, EIP1155_BASIC_ABI, library);
+			const contract = new Contract(token.registry.id, EIP1155_BASIC_ABI, chainId === SupportedChainId.MAINNET ? library : mainnet);
 			let uri: string = await contract.uri(token.identifier);
 			const uriStructure = new URL(uri);
 			let shouldProxy = true;
-			if (uriStructure.protocol === 'ipfs:') {
-				shouldProxy = false;
-				uri = resolveIPFS(uri);
-			}
 
-			if (uri.includes('ipfs')) {
-				shouldProxy = false;
-				uri = replaceIPFSGateway(uri);
-			}
+			[uri, shouldProxy] = quirkIPFSProtocol(uri, uriStructure, shouldProxy);
+			[uri, shouldProxy] = quirkIPFSGateway(uri, shouldProxy);
 
 			if (uriStructure.protocol === 'data:') {
 				const uriBlobParts = uri.split(',');
@@ -73,7 +70,7 @@ const EthEIP1155Asset: React.FC<EthEIP1155AssetProps> = ({ token }) => {
 
 	if (!valid) return null;
 
-	return <Token collection={collection || ''} image={metadata?.image || metadata?.image_url} />;
+	return <Token indicator={ChainIndicator.Mainnet} collection={collection || ''} image={metadata?.image || metadata?.image_url} />;
 };
 
-export default EthEIP1155Asset;
+export default MainnetEIP1155Asset;
