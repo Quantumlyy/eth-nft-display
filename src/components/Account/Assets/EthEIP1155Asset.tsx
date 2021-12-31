@@ -5,7 +5,7 @@ import { Contract } from 'ethers';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React, { useEffect, useState } from 'react';
 import type { BaseOSMetadata } from 'types/metadata';
-import { resolveIPFS } from 'utils/ipfs';
+import { replaceIPFSGateway, resolveIPFS } from 'utils/ipfs';
 import Token from '../Token';
 
 export interface EthEIP1155AssetProps {
@@ -29,7 +29,15 @@ const EthEIP1155Asset: React.FC<EthEIP1155AssetProps> = ({ token }) => {
 			let uri: string = await contract.uri(token.identifier);
 			const uriStructure = new URL(uri);
 			let shouldProxy = true;
-			if (uriStructure.protocol === 'ipfs:') uri = resolveIPFS(uri);
+			if (uriStructure.protocol === 'ipfs:') {
+				shouldProxy = false;
+				uri = resolveIPFS(uri);
+			}
+
+			if (uri.includes('ipfs')) {
+				shouldProxy = false;
+				uri = replaceIPFSGateway(uri);
+			}
 
 			if (uriStructure.protocol === 'data:') {
 				const uriBlobParts = uri.split(',');
@@ -65,7 +73,7 @@ const EthEIP1155Asset: React.FC<EthEIP1155AssetProps> = ({ token }) => {
 
 	if (!valid) return null;
 
-	return <Token collection={metadata?.name || collection || ''} image={metadata?.image || metadata?.image_url} />;
+	return <Token collection={collection || ''} image={metadata?.image || metadata?.image_url} />;
 };
 
 export default EthEIP1155Asset;
