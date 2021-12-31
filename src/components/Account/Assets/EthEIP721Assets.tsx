@@ -42,7 +42,7 @@ const EthEIP721Assets: React.FC<EthEIP721AssetsProps> = ({ address }) => {
 					<>
 						<div className="flex flex-wrap">
 							{(data.account as Account).tokens.map((token: EIP721Token) => (
-								<EthEIP721Asset token={token} />
+								<EthEIP721Asset token={token} key={token.id} />
 							))}
 						</div>
 					</>

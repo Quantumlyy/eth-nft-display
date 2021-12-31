@@ -12,6 +12,7 @@ const GET_ETH_EIP1155_ASSETS = gql`
 			balances {
 				id
 				token {
+					id
 					identifier
 					registry {
 						id
@@ -43,7 +44,7 @@ const EthEIP1155Assets: React.FC<EthEIP1155AssetsProps> = ({ address }) => {
 					<>
 						<div className="flex flex-wrap">
 							{(data.account as Account).balances.map((bal: Balance) => (
-								<EthEIP1155Asset token={bal.token} />
+								<EthEIP1155Asset token={bal.token} key={bal.id} />
 							))}
 						</div>
 					</>

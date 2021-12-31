@@ -1,5 +1,6 @@
 import type { Token as EIP1155Token } from '@subgraphs/eip1155';
 import { EIP1155_BASIC_ABI } from 'constants/abis';
+import { EthOpenSeaSharedStorefront } from 'constants/quirks';
 import { Contract } from 'ethers';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import React, { useEffect, useState } from 'react';
@@ -27,6 +28,7 @@ const EthEIP1155Asset: React.FC<EthEIP1155AssetProps> = ({ token }) => {
 			const contract = new Contract(token.registry.id, EIP1155_BASIC_ABI, library);
 			let uri: string = await contract.uri(token.identifier);
 			const uriStructure = new URL(uri);
+			let shouldProxy = true;
 			if (uriStructure.protocol === 'ipfs:') uri = resolveIPFS(uri);
 
 			if (uriStructure.protocol === 'data:') {
@@ -42,13 +44,18 @@ const EthEIP1155Asset: React.FC<EthEIP1155AssetProps> = ({ token }) => {
 
 				setMetadata(JSON.parse(atob(blob)));
 			} else if (uriStructure.protocol.includes('http') || uriStructure.protocol === 'ipfs:') {
-				await fetch(`${process.env.NEXT_PUBLIC_CORS_PROXY}${uri}`)
+				if (token.registry.id === EthOpenSeaSharedStorefront) {
+					shouldProxy = false;
+					uri = uri.replace('0x{id}', `${token.identifier}`);
+				}
+
+				await fetch(`${shouldProxy ? process.env.NEXT_PUBLIC_CORS_PROXY : ''}${uri}`)
 					.then((res) => res.json())
 					.then(setMetadata);
 			}
 
 			try {
-				setSymbol(await contract.name());
+				setSymbol(await contract.symbol());
 			} catch {}
 		}
 
