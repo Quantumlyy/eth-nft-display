@@ -6,8 +6,8 @@ import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import useAlchemyProviders from 'hooks/useAlchemyProviders';
 import React, { useEffect, useState } from 'react';
 import type { BaseOSMetadata } from 'types/metadata';
-import { quirkIPFSGateway, quirkIPFSHash, quirkIPFSProtocol } from 'utils/quirks/ipfs';
-import Token, { ChainIndicator } from '../Token';
+import { quirkURIQuirks } from 'utils/quirks/uri';
+import Asset, { ChainIndicator } from '../Asset';
 
 export interface MainnetEIP721AssetProps {
 	token: EIP721Token;
@@ -28,13 +28,8 @@ const MainnetEIP721Asset: React.FC<MainnetEIP721AssetProps> = ({ token }) => {
 			}
 
 			const contract = new Contract(token.registry.id, EIP721_BASIC_ABI, chainId === SupportedChainId.MAINNET ? library : mainnet);
-			let uri: string = await contract.tokenURI(token.identifier);
-			let shouldProxy = true;
-			[uri, shouldProxy] = quirkIPFSHash(uri, shouldProxy);
-			const uriStructure = new URL(uri);
-
-			[uri, shouldProxy] = quirkIPFSProtocol(uri, uriStructure, shouldProxy);
-			[uri, shouldProxy] = quirkIPFSGateway(uri, shouldProxy);
+			const contractURI: string = await contract.tokenURI(token.identifier);
+			const [uri, uriStructure, shouldProxy] = quirkURIQuirks(contractURI);
 
 			if (uriStructure.protocol === 'data:') {
 				const uriBlobParts = uri.split(',');
@@ -69,7 +64,7 @@ const MainnetEIP721Asset: React.FC<MainnetEIP721AssetProps> = ({ token }) => {
 	if (!valid) return null;
 
 	return (
-		<Token
+		<Asset
 			indicator={ChainIndicator.Mainnet}
 			collection={token.registry.name || collection}
 			name={metadata?.name || token.identifier.toString()}

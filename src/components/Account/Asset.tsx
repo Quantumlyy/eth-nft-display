@@ -7,14 +7,14 @@ export enum ChainIndicator {
 	Optimism = 'border-chain-optimism'
 }
 
-export interface TokenProps {
+export interface AssetProps {
 	collection: string;
 	name?: string;
 	indicator?: ChainIndicator;
 	image?: string;
 }
 
-const Token: React.FC<TokenProps> = ({ collection, name, image, indicator }) => {
+const Asset: React.FC<AssetProps> = ({ collection, name, image, indicator }) => {
 	indicator ??= ChainIndicator.Mainnet;
 
 	return (
@@ -39,4 +39,4 @@ const Token: React.FC<TokenProps> = ({ collection, name, image, indicator }) => 
 	);
 };
 
-export default Token;
+export default Asset;

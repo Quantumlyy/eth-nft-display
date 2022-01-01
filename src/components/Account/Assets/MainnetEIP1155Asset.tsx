@@ -6,9 +6,9 @@ import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import useAlchemyProviders from 'hooks/useAlchemyProviders';
 import React, { useEffect, useState } from 'react';
 import type { BaseOSMetadata } from 'types/metadata';
-import { EthNiftyContract, EthOpenSeaSharedStorefront } from 'utils/quirks';
-import { quirkIPFSGateway, quirkIPFSHash, quirkIPFSProtocol } from 'utils/quirks/ipfs';
-import Token, { ChainIndicator } from '../Token';
+import { quirkEthNifty, quirkEthOSStorefront } from 'utils/quirks/shared';
+import { quirkURIQuirks } from 'utils/quirks/uri';
+import Asset, { ChainIndicator } from '../Asset';
 
 export interface MainnetEIP1155AssetProps {
 	token: EIP1155Token;
@@ -29,13 +29,8 @@ const MainnetEIP1155Asset: React.FC<MainnetEIP1155AssetProps> = ({ token }) => {
 			}
 
 			const contract = new Contract(token.registry.id, EIP1155_BASIC_ABI, chainId === SupportedChainId.MAINNET ? library : mainnet);
-			let uri: string = await contract.uri(token.identifier);
-			let shouldProxy = true;
-			[uri, shouldProxy] = quirkIPFSHash(uri, shouldProxy);
-			const uriStructure = new URL(uri);
-
-			[uri, shouldProxy] = quirkIPFSProtocol(uri, uriStructure, shouldProxy);
-			[uri, shouldProxy] = quirkIPFSGateway(uri, shouldProxy);
+			const contractURI: string = await contract.uri(token.identifier);
+			let [uri, uriStructure, shouldProxy] = quirkURIQuirks(contractURI);
 
 			if (uriStructure.protocol === 'data:') {
 				const uriBlobParts = uri.split(',');
@@ -50,14 +45,9 @@ const MainnetEIP1155Asset: React.FC<MainnetEIP1155AssetProps> = ({ token }) => {
 
 				setMetadata(JSON.parse(atob(blob)));
 			} else if (uriStructure.protocol.includes('http') || uriStructure.protocol === 'ipfs:') {
-				if (token.registry.id === EthOpenSeaSharedStorefront) {
-					shouldProxy = false;
-					uri = uri.replace('0x{id}', `${token.identifier}`);
-				}
-				if (token.registry.id === EthNiftyContract) {
-					shouldProxy = false;
-					uri = uri.replace('{id}', `${token.identifier}`);
-				}
+				// eslint-disable-next-line prettier/prettier
+				[uri, shouldProxy] = quirkEthOSStorefront(uri, chainId, { identifier: token.identifier, contract: { id: token.registry.id } }, shouldProxy);
+				[uri, shouldProxy] = quirkEthNifty(uri, chainId, { identifier: token.identifier, contract: { id: token.registry.id } }, shouldProxy);
 
 				await fetch(`${shouldProxy ? process.env.NEXT_PUBLIC_CORS_PROXY : ''}${uri.trim()}`)
 					.then((res) => res.json())
@@ -79,7 +69,7 @@ const MainnetEIP1155Asset: React.FC<MainnetEIP1155AssetProps> = ({ token }) => {
 	if (!valid) return null;
 
 	return (
-		<Token
+		<Asset
 			indicator={ChainIndicator.Mainnet}
 			collection={collection || `Unidentified contract ${token.registry.id}`}
 			name={metadata?.name}
