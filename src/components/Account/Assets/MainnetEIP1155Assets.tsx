@@ -11,6 +11,7 @@ const GET_ETH_EIP1155_ASSETS = gql`
 			id
 			balances {
 				id
+				value
 				token {
 					id
 					identifier
@@ -41,9 +42,9 @@ const MainnetEIP1155Assets: React.FC<MainnetEIP1155AssetsProps> = ({ address }) 
 				<span>Loading</span>
 			) : (
 				<>
-					{(data.account as Account).balances.map((bal: Balance) => (
-						<MainnetEIP1155Asset token={bal.token} key={bal.id} />
-					))}
+					{(data.account as Account).balances.map(
+						(bal: Balance) => (bal.value as unknown as number) > 0 && <MainnetEIP1155Asset token={bal.token} key={bal.id} />
+					)}
 				</>
 			)}
 		</>
