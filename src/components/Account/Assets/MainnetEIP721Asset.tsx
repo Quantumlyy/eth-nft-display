@@ -5,7 +5,7 @@ import { Contract } from 'ethers';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import useAlchemyProviders from 'hooks/useAlchemyProviders';
 import React, { useEffect, useState } from 'react';
-import type { BaseOSMetadata } from 'types/metadata';
+import type { BaseMetadata } from 'types/metadata';
 import { metadataAPI, metadataBase64 } from 'utils/metadata';
 import { quirkURIQuirks } from 'utils/quirks/uri';
 import Asset, { ChainIndicator } from '../Asset';
@@ -19,7 +19,7 @@ const MainnetEIP721Asset: React.FC<MainnetEIP721AssetProps> = ({ token }) => {
 	const { mainnet } = useAlchemyProviders();
 	const [valid, setValid] = useState(true);
 	const [collection, setCollection] = useState('');
-	const [metadata, setMetadata] = useState<BaseOSMetadata>();
+	const [metadata, setMetadata] = useState<BaseMetadata>();
 
 	useEffect(() => {
 		async function logic() {
@@ -40,6 +40,7 @@ const MainnetEIP721Asset: React.FC<MainnetEIP721AssetProps> = ({ token }) => {
 				const [metadata_, valid_] = await metadataAPI(
 					uri,
 					chainId,
+					SupportedChainId.MAINNET,
 					{ identifier: token.identifier, contract: { id: token.registry.id } },
 					shouldProxy
 				);

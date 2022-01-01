@@ -31,7 +31,8 @@ export interface MainnetEIP1155AssetsProps {
 const MainnetEIP1155Assets: React.FC<MainnetEIP1155AssetsProps> = ({ address }) => {
 	const { data, loading } = useQuery<EthEIP1155Response<'account'>>(GET_ETH_EIP1155_ASSETS, {
 		variables: { owner: address },
-		context: { subgraph: Subgraph.MAINNET_EIP1155 }
+		context: { subgraph: Subgraph.MAINNET_EIP1155 },
+		fetchPolicy: 'no-cache'
 	});
 
 	if ((!data || !data.account) && !loading) return null;

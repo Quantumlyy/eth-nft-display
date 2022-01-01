@@ -30,7 +30,8 @@ export interface OptimismEIP721AssetsProps {
 const OptimismEIP721Assets: React.FC<OptimismEIP721AssetsProps> = ({ address }) => {
 	const { data, loading } = useQuery<OptEIP721Response<'account'>>(GET_OPTIMISM_EIP721_ASSETS, {
 		variables: { owner: address },
-		context: { subgraph: Subgraph.OPTIMISM_EIP721 }
+		context: { subgraph: Subgraph.OPTIMISM_EIP721 },
+		fetchPolicy: 'no-cache'
 	});
 
 	if ((!data || !data.account) && !loading) return null;

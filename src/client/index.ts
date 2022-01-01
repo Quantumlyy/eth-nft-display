@@ -8,12 +8,20 @@ import { baseLink } from './links';
 
 export const client = new ApolloClient({
 	link: baseLink,
-	cache: new InMemoryCache()
+	cache: new InMemoryCache(),
+	defaultOptions: {
+		watchQuery: {
+			fetchPolicy: 'no-cache'
+		},
+		query: {
+			fetchPolicy: 'no-cache'
+		}
+	}
 });
 
 export type EthEIP721Response<K extends keyof Omit<EthEIP721Query, '__typename'>> = Record<K, Omit<EthEIP721Query[K], '__typename'>>;
 export type EthEIP1155Response<K extends keyof Omit<EthEIP1155Query, '__typename'>> = Record<K, Omit<EthEIP1155Query[K], '__typename'>>;
-export type NonStandardNFTsResponse<K extends keyof Omit<NonStandardNFTsQuery, '__typename'>> = Record<
+export type EthNonStandardNFTsResponse<K extends keyof Omit<NonStandardNFTsQuery, '__typename'>> = Record<
 	K,
 	Omit<NonStandardNFTsQuery[K], '__typename'>
 >;

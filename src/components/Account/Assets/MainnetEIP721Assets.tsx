@@ -30,7 +30,8 @@ export interface MainnetEIP721AssetsProps {
 const MainnetEIP721Assets: React.FC<MainnetEIP721AssetsProps> = ({ address }) => {
 	const { data, loading } = useQuery<EthEIP721Response<'account'>>(GET_ETH_EIP721_ASSETS, {
 		variables: { owner: address },
-		context: { subgraph: Subgraph.MAINNET_EIP721 }
+		context: { subgraph: Subgraph.MAINNET_EIP721 },
+		fetchPolicy: 'no-cache'
 	});
 
 	if ((!data || !data.account) && !loading) return null;

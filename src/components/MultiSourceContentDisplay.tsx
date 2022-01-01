@@ -1,6 +1,7 @@
 import React from 'react';
 import { resolveIPFS } from 'utils/ipfs';
 import { quirkIPFSGateway } from 'utils/quirks/ipfs';
+import { quirkSVGImage } from 'utils/quirks/shared';
 
 const FALLBACK = 'https://i.ibb.co/q7DP0Dz/no-image.png';
 
@@ -15,6 +16,7 @@ const MultiSourceContentDisplay: React.FC<MultiSourceContentDisplayProps> = ({ s
 
 	if (uriStructure.protocol === 'ipfs:') uri = resolveIPFS(uri);
 	[uri] = quirkIPFSGateway(uri, false);
+	[uri] = quirkSVGImage(uri, uriStructure);
 
 	return (
 		<>

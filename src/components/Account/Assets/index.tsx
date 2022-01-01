@@ -3,6 +3,7 @@ import useENSDomain from 'hooks/useENSDomain';
 import React from 'react';
 import MainnetEIP1155Assets from './MainnetEIP1155Assets';
 import MainnetEIP721Assets from './MainnetEIP721Assets';
+import MainnetNonStandardNFTAssets from './MainnetNonStandardNFTAssets';
 import OptimismEIP721Assets from './OptimismEIP721Assets';
 
 export interface AssetsProps {
@@ -19,6 +20,7 @@ const Assets: React.FC<AssetsProps> = ({ address }) => {
 			<div className="flex flex-wrap gap-8">
 				<MainnetEIP721Assets address={sortedAddress} />
 				<MainnetEIP1155Assets address={sortedAddress} />
+				<MainnetNonStandardNFTAssets address={sortedAddress} />
 				<OptimismEIP721Assets address={sortedAddress} />
 			</div>
 		</div>
