@@ -6,7 +6,7 @@ import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import useAlchemyProviders from 'hooks/useAlchemyProviders';
 import React, { useEffect, useState } from 'react';
 import type { BaseOSMetadata } from 'types/metadata';
-import { quirkIPFSGateway, quirkIPFSProtocol } from 'utils/quirks/ipfs';
+import { quirkIPFSGateway, quirkIPFSHash, quirkIPFSProtocol } from 'utils/quirks/ipfs';
 import Token, { ChainIndicator } from '../Token';
 
 export interface OptimismEIP721AssetProps {
@@ -29,8 +29,9 @@ const OptimismEIP721Asset: React.FC<OptimismEIP721AssetProps> = ({ token }) => {
 
 			const contract = new Contract(token.contract.id, EIP721_BASIC_ABI, chainId === SupportedChainId.OPTIMISM ? library : optimism);
 			let uri: string = await contract.tokenURI(token.identifier);
-			const uriStructure = new URL(uri);
 			let shouldProxy = true;
+			[uri, shouldProxy] = quirkIPFSHash(uri, shouldProxy);
+			const uriStructure = new URL(uri);
 
 			[uri, shouldProxy] = quirkIPFSProtocol(uri, uriStructure, shouldProxy);
 			[uri, shouldProxy] = quirkIPFSGateway(uri, shouldProxy);
@@ -48,9 +49,12 @@ const OptimismEIP721Asset: React.FC<OptimismEIP721AssetProps> = ({ token }) => {
 
 				setMetadata(JSON.parse(atob(blob)));
 			} else if (uriStructure.protocol.includes('http') || uriStructure.protocol === 'ipfs:') {
-				await fetch(`${shouldProxy ? process.env.NEXT_PUBLIC_CORS_PROXY : ''}${uri}`)
+				await fetch(`${shouldProxy ? process.env.NEXT_PUBLIC_CORS_PROXY : ''}${uri.trim()}`)
 					.then((res) => res.json())
-					.then(setMetadata);
+					.then(setMetadata)
+					.catch(() => {
+						setValid(false);
+					});
 			}
 
 			try {
@@ -65,7 +69,12 @@ const OptimismEIP721Asset: React.FC<OptimismEIP721AssetProps> = ({ token }) => {
 	if (!valid) return null;
 
 	return (
-		<Token indicator={ChainIndicator.Optimism} collection={token.contract.name || collection} image={metadata?.image || metadata?.image_url} />
+		<Token
+			indicator={ChainIndicator.Optimism}
+			collection={token.contract.name || collection}
+			name={metadata?.name}
+			image={metadata?.image || metadata?.image_url}
+		/>
 	);
 };
 
