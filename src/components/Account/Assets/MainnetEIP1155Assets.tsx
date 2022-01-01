@@ -9,7 +9,7 @@ const GET_ETH_EIP1155_ASSETS = gql`
 	query GetEthereumEIP1155Assets($owner: String!) {
 		account(id: $owner) {
 			id
-			balances {
+			balances(first: 999) {
 				id
 				value
 				token {

@@ -9,7 +9,7 @@ const GET_ETH_EIP721_ASSETS = gql`
 	query GetEthereumEIP721Assets($owner: String!) {
 		account(id: $owner) {
 			id
-			tokens {
+			tokens(first: 999) {
 				id
 				uri
 				identifier

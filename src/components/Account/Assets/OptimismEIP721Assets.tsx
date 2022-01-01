@@ -9,7 +9,7 @@ const GET_OPTIMISM_EIP721_ASSETS = gql`
 	query GetOptimismEIP721Assets($owner: String!) {
 		account(id: $owner) {
 			id
-			ERC721tokens {
+			ERC721tokens(first: 999) {
 				id
 				uri
 				identifier
