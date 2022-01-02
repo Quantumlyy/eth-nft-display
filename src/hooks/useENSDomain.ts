@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { noop } from 'utils/utils';
-import useAlchemyProviders from './useAlchemyProviders';
+import useProviders from './useProviders';
 
 export default function useENSDomain(ENSName?: string | null) {
-	const { mainnet } = useAlchemyProviders();
+	const { mainnet } = useProviders();
 	const [address, setAddress] = useState('');
 
 	// @ts-expect-error Not all code paths return a value.

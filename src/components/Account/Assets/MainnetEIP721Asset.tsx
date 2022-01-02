@@ -2,7 +2,7 @@ import type { Token as EIP721Token } from '@subgraphs/eip721';
 import { ABI } from 'constants/abis';
 import { SupportedChainId } from 'constants/chains';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
-import useAlchemyProviders from 'hooks/useAlchemyProviders';
+import useProviders from 'hooks/useProviders';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMetadata, selectAssetMetadata } from 'state/reducers/assets';
@@ -15,7 +15,7 @@ export interface MainnetEIP721AssetProps {
 const MainnetEIP721Asset: React.FC<MainnetEIP721AssetProps> = ({ token }) => {
 	const { library, chainId } = useActiveWeb3React();
 	const dispatch = useDispatch();
-	const { mainnet } = useAlchemyProviders();
+	const { mainnet } = useProviders();
 	const [valid, setValid] = useState(true);
 
 	const metadata = useSelector(selectAssetMetadata(SupportedChainId.MAINNET, token.registry.id, token.identifier));

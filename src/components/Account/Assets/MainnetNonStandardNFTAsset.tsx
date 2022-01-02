@@ -1,7 +1,7 @@
 import type { Token } from '@subgraphs/non-standard-nfts';
 import { SupportedChainId } from 'constants/chains';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
-import useAlchemyProviders from 'hooks/useAlchemyProviders';
+import useProviders from 'hooks/useProviders';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMainnetCryptopunksMetadata, selectAssetMetadata } from 'state/reducers/assets';
@@ -13,7 +13,7 @@ export interface MainnetNonStandardNFTAssetProps {
 
 const MainnetNonStandardNFTAsset: React.FC<MainnetNonStandardNFTAssetProps> = ({ token }) => {
 	const { library, chainId } = useActiveWeb3React();
-	const { mainnet } = useAlchemyProviders();
+	const { mainnet } = useProviders();
 	const dispatch = useDispatch();
 	const [valid, setValid] = useState(true);
 
