@@ -23,20 +23,21 @@ const MainnetNonStandardNFTAsset: React.FC<MainnetNonStandardNFTAssetProps> = ({
 		if (!library || !chainId || !token) {
 			setValid(false);
 		}
-		dispatch(fetchMainnetCryptopunksMetadata({ token, chainId: chainId!, library: library!, mainnet }));
+
+		dispatch(
+			fetchMainnetCryptopunksMetadata({
+				token: { identifier: token.identifier, contract: { id: token.registry.id } },
+				activeChainId: chainId!,
+				library: library!,
+				native: mainnet
+			})
+		);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	if (!valid) return null;
+	if (!valid || !metadata) return null;
 
-	return (
-		<Asset
-			indicator={ChainIndicator.Mainnet}
-			collection={token.registry.name!}
-			name={token.identifier.toString()}
-			image={metadata?.image || ''}
-		/>
-	);
+	return <Asset indicator={ChainIndicator.Mainnet} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
 };
 
 export default MainnetNonStandardNFTAsset;

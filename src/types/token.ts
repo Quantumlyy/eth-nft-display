@@ -1,4 +1,5 @@
 export interface TokenContract {
+	name?: string;
 	id: string;
 }
 

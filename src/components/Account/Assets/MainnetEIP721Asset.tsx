@@ -1,13 +1,11 @@
 import type { Token as EIP721Token } from '@subgraphs/eip721';
-import { EIP721_BASIC_ABI } from 'constants/abis';
+import { ABI } from 'constants/abis';
 import { SupportedChainId } from 'constants/chains';
-import { Contract } from 'ethers';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import useAlchemyProviders from 'hooks/useAlchemyProviders';
 import React, { useEffect, useState } from 'react';
-import type { BaseMetadata } from 'types/metadata';
-import { metadataAPI, metadataBase64 } from 'utils/metadata';
-import { quirkURIQuirks } from 'utils/quirks/uri';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchMetadata, selectAssetMetadata } from 'state/reducers/assets';
 import Asset, { ChainIndicator } from '../Asset';
 
 export interface MainnetEIP721AssetProps {
@@ -16,57 +14,40 @@ export interface MainnetEIP721AssetProps {
 
 const MainnetEIP721Asset: React.FC<MainnetEIP721AssetProps> = ({ token }) => {
 	const { library, chainId } = useActiveWeb3React();
+	const dispatch = useDispatch();
 	const { mainnet } = useAlchemyProviders();
 	const [valid, setValid] = useState(true);
-	const [collection, setCollection] = useState('');
-	const [metadata, setMetadata] = useState<BaseMetadata>();
+
+	const metadata = useSelector(selectAssetMetadata(SupportedChainId.MAINNET, token.registry.id, token.identifier));
 
 	useEffect(() => {
-		async function logic() {
-			if (!token.uri || !library || !chainId) {
-				setValid(false);
-				return;
-			}
-
-			const contract = new Contract(token.registry.id, EIP721_BASIC_ABI, chainId === SupportedChainId.MAINNET ? library : mainnet);
-			const contractURI: string = await contract.tokenURI(token.identifier);
-			const [uri, protocol, shouldProxy] = quirkURIQuirks(contractURI);
-
-			if (protocol === 'data:') {
-				const [metadata_, valid_] = await metadataBase64(uri);
-				setValid(valid_);
-				setMetadata(metadata_);
-			} else if (protocol.includes('http') || protocol === 'ipfs:') {
-				const [metadata_, valid_] = await metadataAPI(
-					uri,
-					chainId,
-					SupportedChainId.MAINNET,
-					{ identifier: token.identifier, contract: { id: token.registry.id } },
-					shouldProxy
-				);
-				setValid(valid_);
-				setMetadata(metadata_);
-			}
-
-			try {
-				if (!token.registry.name) setCollection(await contract.name());
-			} catch {}
+		if (!token || !token.uri || !library || !chainId) {
+			setValid(false);
+			return;
 		}
 
-		void logic();
+		dispatch(
+			fetchMetadata({
+				token: {
+					identifier: token.identifier,
+					contract: {
+						id: token.registry.id,
+						name: token.registry.name || undefined
+					}
+				},
+				activeChainId: chainId,
+				displayChainId: SupportedChainId.MAINNET,
+				library,
+				native: mainnet,
+				contractABI: ABI.EIP721
+			})
+		);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	if (!valid) return null;
+	if (!valid || !metadata) return null;
 
-	return (
-		<Asset
-			indicator={ChainIndicator.Mainnet}
-			collection={token.registry.name || collection}
-			name={metadata?.name || token.identifier.toString()}
-			image={metadata?.image || metadata?.image_url}
-		/>
-	);
+	return <Asset indicator={ChainIndicator.Mainnet} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
 };
 
 export default MainnetEIP721Asset;
