@@ -7,6 +7,8 @@ export enum Subgraph {
 	POLYGON_EIP1155 = 'https://api.thegraph.com/subgraphs/name/quantumlyy/eip1155-subgraph-matic', // @subgraphs/eip1155-matic or @subgraphs/eip1155-optimism
 	FANTOM_EIP721 = 'https://api.thegraph.com/subgraphs/name/quantumlyy/eip721-subgraph-fantom',
 	FANTOM_EIP1155 = 'https://api.thegraph.com/subgraphs/name/quantumlyy/eip1155-subgraph-fantom',
+	AVALANCHE_EIP721 = 'https://api.thegraph.com/subgraphs/name/quantumlyy/eip721-subgraph-avalanche',
+	AVALANCHE_EIP1155 = 'https://api.thegraph.com/subgraphs/name/quantumlyy/eip1155-subgraph-avalanche',
 	OPTIMISM_EIP721 = 'https://api.thegraph.com/subgraphs/name/quantumlyy/eip721-subgraph-optimism', // @subgraphs/eip721-optimism or @subgraphs/eip721-matic
 	OPTIMISM_EIP1155 = 'https://api.thegraph.com/subgraphs/name/quantumlyy/eip1155-subgraph-optimism', // @subgraphs/eip1155-optimism or @subgraphs/eip1155-matic
 	ARBITRUM_EIP721 = 'https://api.thegraph.com/subgraphs/name/quantumlyy/eip721-subgraph-arbitrum',

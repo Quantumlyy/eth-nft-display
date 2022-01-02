@@ -6,6 +6,7 @@ export enum SupportedChainId {
 
 	POLYGON = 137,
 	FANTOM = 250,
+	AVALANCHE = 43114,
 
 	OPTIMISM = 10,
 	ARBITRUM = 42161
@@ -15,7 +16,7 @@ export const ALL_SUPPORTED_CHAIN_IDS: SupportedChainId[] = Object.values(Support
 	(id) => typeof id === 'number'
 ) as SupportedChainId[];
 
-export const L1_CHAIN_IDS = [SupportedChainId.MAINNET, SupportedChainId.POLYGON, SupportedChainId.FANTOM] as const;
+export const L1_CHAIN_IDS = [SupportedChainId.MAINNET, SupportedChainId.POLYGON, SupportedChainId.FANTOM, SupportedChainId.AVALANCHE] as const;
 
 export type SupportedL1ChainId = typeof L1_CHAIN_IDS[number];
 
@@ -23,7 +24,7 @@ export const L2_CHAIN_IDS = [SupportedChainId.OPTIMISM, SupportedChainId.ARBITRU
 
 export type SupportedL2ChainId = typeof L2_CHAIN_IDS[number];
 
-export const ALCHEMY_NETWORK_URLS: { [key in Exclude<SupportedChainId, SupportedChainId.FANTOM>]: string } = {
+export const ALCHEMY_NETWORK_URLS: { [key in Exclude<SupportedChainId, SupportedChainId.FANTOM | SupportedChainId.AVALANCHE>]: string } = {
 	[SupportedChainId.MAINNET]: `https://eth-mainnet.alchemyapi.io/v2/${process.env.NEXT_PUBLIC_MAINNET_KEY}`,
 	[SupportedChainId.OPTIMISM]: `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_OPTIMISM_KEY}`,
 	[SupportedChainId.POLYGON]: `https://opt-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_POLYGON_KEY}`,
@@ -95,6 +96,16 @@ export const CHAIN_INFO: ChainInfoMap = {
 		addNetworkInfo: {
 			nativeCurrency: { name: 'Fantom', symbol: 'FTM', decimals: 18 },
 			rpcUrl: 'https://rpc.ftm.tools/'
+		}
+	},
+	[SupportedChainId.AVALANCHE]: {
+		networkType: NetworkType.L1,
+		// blockWaitMsBeforeWarning: ms`10m`,
+		explorer: 'https://snowtrace.io/',
+		label: 'Avalanche',
+		addNetworkInfo: {
+			nativeCurrency: { name: 'Avalanche', symbol: 'AVAX', decimals: 18 },
+			rpcUrl: 'https://api.avax.network/ext/bc/C/rpc'
 		}
 	},
 	[SupportedChainId.OPTIMISM]: {

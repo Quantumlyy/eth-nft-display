@@ -24,6 +24,12 @@ export const ftmEIP721Link = new HttpLink({
 export const ftmEIP1155Link = new HttpLink({
 	uri: Subgraph.FANTOM_EIP1155
 });
+export const avaxEIP721Link = new HttpLink({
+	uri: Subgraph.AVALANCHE_EIP721
+});
+export const avaxEIP1155Link = new HttpLink({
+	uri: Subgraph.AVALANCHE_EIP1155
+});
 export const optEIP721Link = new HttpLink({
 	uri: Subgraph.OPTIMISM_EIP721
 });
@@ -76,16 +82,28 @@ export const optEIP721_optEIP1155 = ApolloLink.split(
 	optEIP1155_arbEIP721
 );
 
-export const ftmEIP1155_optEIP721 = ApolloLink.split(
+export const avaxEIP1155_optEIP721 = ApolloLink.split(
+	(op) => op.getContext().subgraph === Subgraph.AVALANCHE_EIP1155,
+	avaxEIP1155Link,
+	optEIP721_optEIP1155
+);
+
+export const avaxEIP721_avaxEIP1155 = ApolloLink.split(
+	(op) => op.getContext().subgraph === Subgraph.AVALANCHE_EIP721,
+	avaxEIP721Link,
+	avaxEIP1155_optEIP721
+);
+
+export const ftmEIP1155_avaxEIP721 = ApolloLink.split(
 	(op) => op.getContext().subgraph === Subgraph.FANTOM_EIP1155,
 	ftmEIP1155Link,
-	optEIP721_optEIP1155
+	avaxEIP721_avaxEIP1155
 );
 
 export const ftmEIP721_ftmEIP1155 = ApolloLink.split(
 	(op) => op.getContext().subgraph === Subgraph.FANTOM_EIP721,
 	ftmEIP721Link,
-	ftmEIP1155_optEIP721
+	ftmEIP1155_avaxEIP721
 );
 
 export const plyEIP1155_ftmEIP721 = ApolloLink.split(
