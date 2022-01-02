@@ -4,6 +4,7 @@ import React from 'react';
 import MainnetEIP1155Assets from './MainnetEIP1155Assets';
 import MainnetEIP721Assets from './MainnetEIP721Assets';
 import MainnetNonStandardNFTAssets from './MainnetNonStandardNFTAssets';
+import OptimismEIP1155Assets from './OptimismEIP1155Assets';
 import OptimismEIP721Assets from './OptimismEIP721Assets';
 
 export interface AssetsProps {
@@ -22,6 +23,7 @@ const Assets: React.FC<AssetsProps> = ({ address }) => {
 				<MainnetEIP1155Assets address={sortedAddress} />
 				<MainnetNonStandardNFTAssets address={sortedAddress} />
 				<OptimismEIP721Assets address={sortedAddress} />
+				<OptimismEIP1155Assets address={sortedAddress} />
 			</div>
 		</div>
 	);

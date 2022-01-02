@@ -4,7 +4,8 @@ import React from 'react';
 export enum ChainIndicator {
 	Mainnet = 'border-chain-ethereum',
 	Polygon = 'border-chain-polygon',
-	Optimism = 'border-chain-optimism'
+	Optimism = 'border-chain-optimism',
+	Arbitrum = 'border-chain-arbitrum'
 }
 
 export interface AssetProps {
@@ -19,8 +20,8 @@ const Asset: React.FC<AssetProps> = ({ collection, name, image, indicator }) => 
 
 	return (
 		<>
-			<div className="max-w-[16.2rem] min-w-[16.2rem]">
-				<div className={`rounded-lg bg-gray-600 border-2 h-full ${indicator}`}>
+			<div className="max-w-[16.4rem] min-w-[16.4rem]">
+				<div className={`rounded-lg bg-gray-600 border-4 h-full ${indicator}`}>
 					<div className="min-h-[16rem] min-w-[16rem] relative">
 						{image && (
 							<MultiSourceContentDisplay

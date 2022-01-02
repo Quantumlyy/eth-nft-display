@@ -30,13 +30,13 @@ const MainnetEIP1155Asset: React.FC<MainnetEIP1155AssetProps> = ({ token }) => {
 
 			const contract = new Contract(token.registry.id, EIP1155_BASIC_ABI, chainId === SupportedChainId.MAINNET ? library : mainnet);
 			const contractURI: string = await contract.uri(token.identifier);
-			const [uri, uriStructure, shouldProxy] = quirkURIQuirks(contractURI);
+			const [uri, protocol, shouldProxy] = quirkURIQuirks(contractURI);
 
-			if (uriStructure.protocol === 'data:') {
+			if (protocol === 'data:') {
 				const [metadata_, valid_] = await metadataBase64(uri);
 				setValid(valid_);
 				setMetadata(metadata_);
-			} else if (uriStructure.protocol.includes('http') || uriStructure.protocol === 'ipfs:') {
+			} else if (protocol.includes('http') || protocol === 'ipfs:') {
 				const [metadata_, valid_] = await metadataAPI(
 					uri,
 					chainId,

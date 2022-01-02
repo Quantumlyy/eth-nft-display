@@ -6,6 +6,7 @@ export type MetadataParsingData<T = BaseMetadata | undefined> = [metadata: T, va
 export type MetadataParsingReturn<T = BaseMetadata | undefined> = MetadataParsingData<T> | Promise<MetadataParsingData<T>>;
 
 export function metadataBase64(uri: string): MetadataParsingReturn {
+	if (!uri) return [undefined, false];
 	const uriBlobParts = uri.split(',');
 	const blob = uriBlobParts[uriBlobParts.length - 1];
 
@@ -19,6 +20,7 @@ export function metadataBase64(uri: string): MetadataParsingReturn {
 }
 
 export function metadataAPI(uri: string, _activeChainId: number, displayChainId: number, token: Token, shouldProxy: boolean): MetadataParsingReturn {
+	if (!uri) return [undefined, false];
 	// eslint-disable-next-line prettier/prettier
 	[uri, shouldProxy] = quirkEthOSStorefront(uri, displayChainId, token, shouldProxy);
 	[uri, shouldProxy] = quirkEthNifty(uri, displayChainId, token, shouldProxy);

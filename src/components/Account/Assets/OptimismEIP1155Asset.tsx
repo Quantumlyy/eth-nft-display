@@ -1,5 +1,5 @@
-import type { Erc721Token } from '@subgraphs/eip721-matic';
-import { EIP721_BASIC_ABI } from 'constants/abis';
+import type { Erc1155Token } from '@subgraphs/eip1155-matic';
+import { EIP1155_BASIC_ABI } from 'constants/abis';
 import { SupportedChainId } from 'constants/chains';
 import { Contract } from 'ethers';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
@@ -10,11 +10,11 @@ import { metadataAPI, metadataBase64 } from 'utils/metadata';
 import { quirkURIQuirks } from 'utils/quirks/uri';
 import Asset, { ChainIndicator } from '../Asset';
 
-export interface OptimismEIP721AssetProps {
-	token: Erc721Token;
+export interface OptimismEIP1155AssetProps {
+	token: Erc1155Token;
 }
 
-const OptimismEIP721Asset: React.FC<OptimismEIP721AssetProps> = ({ token }) => {
+const OptimismEIP1155Asset: React.FC<OptimismEIP1155AssetProps> = ({ token }) => {
 	const { library, chainId } = useActiveWeb3React();
 	const { optimism } = useAlchemyProviders();
 	const [valid, setValid] = useState(true);
@@ -23,13 +23,13 @@ const OptimismEIP721Asset: React.FC<OptimismEIP721AssetProps> = ({ token }) => {
 
 	useEffect(() => {
 		async function logic() {
-			if (!library || !chainId) {
+			if (!token.contract.id || !token.identifier || !library || !chainId) {
 				setValid(false);
 				return;
 			}
 
-			const contract = new Contract(token.contract.id, EIP721_BASIC_ABI, chainId === SupportedChainId.OPTIMISM ? library : optimism);
-			const contractURI: string = await contract.tokenURI(token.identifier);
+			const contract = new Contract(token.contract.id, EIP1155_BASIC_ABI, chainId === SupportedChainId.OPTIMISM ? library : optimism);
+			const contractURI: string = await contract.uri(token.identifier);
 			const [uri, protocol, shouldProxy] = quirkURIQuirks(contractURI);
 
 			if (protocol === 'data:') {
@@ -49,7 +49,7 @@ const OptimismEIP721Asset: React.FC<OptimismEIP721AssetProps> = ({ token }) => {
 			}
 
 			try {
-				if (!token.contract.name) setCollection(await contract.name());
+				if (!metadata?.name) setCollection(await contract.name());
 			} catch {}
 		}
 
@@ -62,11 +62,11 @@ const OptimismEIP721Asset: React.FC<OptimismEIP721AssetProps> = ({ token }) => {
 	return (
 		<Asset
 			indicator={ChainIndicator.Optimism}
-			collection={token.contract.name || collection}
+			collection={collection || `Unidentified contract ${token.contract.id}`}
 			name={metadata?.name}
 			image={metadata?.image || metadata?.image_url}
 		/>
 	);
 };
 
-export default OptimismEIP721Asset;
+export default OptimismEIP1155Asset;

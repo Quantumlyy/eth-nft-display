@@ -20,7 +20,8 @@ module.exports = {
 				chain: {
 					ethereum: '#627eea',
 					polygon: '#8247e5',
-					optimism: '#ff3856'
+					optimism: '#ff3856',
+					arbitrum: '#28a0f0'
 				}
 			}
 		}
