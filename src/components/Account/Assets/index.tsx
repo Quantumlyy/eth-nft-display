@@ -1,6 +1,8 @@
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import useENSDomain from 'hooks/useENSDomain';
 import React from 'react';
+import ArbitrumEIP1155Assets from './ArbitrumEIP1155Assets';
+import ArbitrumEIP721Assets from './ArbitrumEIP721Assets';
 import MainnetEIP1155Assets from './MainnetEIP1155Assets';
 import MainnetEIP721Assets from './MainnetEIP721Assets';
 import MainnetNonStandardNFTAssets from './MainnetNonStandardNFTAssets';
@@ -28,6 +30,8 @@ const Assets: React.FC<AssetsProps> = ({ address }) => {
 				<PolygonEIP1155Assets address={sortedAddress} />
 				<OptimismEIP721Assets address={sortedAddress} />
 				<OptimismEIP1155Assets address={sortedAddress} />
+				<ArbitrumEIP721Assets address={sortedAddress} />
+				<ArbitrumEIP1155Assets address={sortedAddress} />
 			</div>
 		</div>
 	);

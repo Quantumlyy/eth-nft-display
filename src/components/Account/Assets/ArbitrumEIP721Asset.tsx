@@ -8,17 +8,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchMetadata, selectAssetMetadata } from 'state/reducers/assets';
 import Asset, { ChainIndicator } from '../Asset';
 
-export interface PolygonEIP721AssetProps {
+export interface ArbitrumEIP721AssetProps {
 	token: Erc721Token;
 }
 
-const PolygonEIP721Asset: React.FC<PolygonEIP721AssetProps> = ({ token }) => {
+const ArbitrumEIP721Asset: React.FC<ArbitrumEIP721AssetProps> = ({ token }) => {
 	const { library, chainId } = useActiveWeb3React();
 	const dispatch = useDispatch();
-	const { polygon } = useProviders();
+	const { arbitrum } = useProviders();
 	const [valid, setValid] = useState(true);
 
-	const metadata = useSelector(selectAssetMetadata(SupportedChainId.POLYGON, token.contract.id, token.identifier));
+	const metadata = useSelector(selectAssetMetadata(SupportedChainId.ARBITRUM, token.contract.id, token.identifier));
 
 	useEffect(() => {
 		if (!token || !library || !chainId) {
@@ -36,9 +36,9 @@ const PolygonEIP721Asset: React.FC<PolygonEIP721AssetProps> = ({ token }) => {
 					}
 				},
 				activeChainId: chainId,
-				displayChainId: SupportedChainId.POLYGON,
+				displayChainId: SupportedChainId.ARBITRUM,
 				library,
-				native: polygon,
+				native: arbitrum,
 				contractABI: ABI.EIP721
 			})
 		);
@@ -47,7 +47,7 @@ const PolygonEIP721Asset: React.FC<PolygonEIP721AssetProps> = ({ token }) => {
 
 	if (!valid || !metadata) return null;
 
-	return <Asset indicator={ChainIndicator.Polygon} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
+	return <Asset indicator={ChainIndicator.Arbitrum} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
 };
 
-export default PolygonEIP721Asset;
+export default ArbitrumEIP721Asset;

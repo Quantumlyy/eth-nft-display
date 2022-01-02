@@ -1,4 +1,4 @@
-import type { Erc721Token } from '@subgraphs/eip721-matic';
+import type { Erc1155Token } from '@subgraphs/eip1155-matic';
 import { ABI } from 'constants/abis';
 import { SupportedChainId } from 'constants/chains';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
@@ -8,17 +8,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchMetadata, selectAssetMetadata } from 'state/reducers/assets';
 import Asset, { ChainIndicator } from '../Asset';
 
-export interface PolygonEIP721AssetProps {
-	token: Erc721Token;
+export interface ArbitrumEIP1155AssetProps {
+	token: Erc1155Token;
 }
 
-const PolygonEIP721Asset: React.FC<PolygonEIP721AssetProps> = ({ token }) => {
+const ArbitrumEIP1155Asset: React.FC<ArbitrumEIP1155AssetProps> = ({ token }) => {
 	const { library, chainId } = useActiveWeb3React();
 	const dispatch = useDispatch();
-	const { polygon } = useProviders();
+	const { arbitrum } = useProviders();
 	const [valid, setValid] = useState(true);
 
-	const metadata = useSelector(selectAssetMetadata(SupportedChainId.POLYGON, token.contract.id, token.identifier));
+	const metadata = useSelector(selectAssetMetadata(SupportedChainId.ARBITRUM, token.contract.id, token.identifier));
 
 	useEffect(() => {
 		if (!token || !library || !chainId) {
@@ -32,14 +32,14 @@ const PolygonEIP721Asset: React.FC<PolygonEIP721AssetProps> = ({ token }) => {
 					identifier: token.identifier,
 					contract: {
 						id: token.contract.id,
-						name: token.contract.name || undefined
+						name: undefined
 					}
 				},
 				activeChainId: chainId,
-				displayChainId: SupportedChainId.POLYGON,
+				displayChainId: SupportedChainId.ARBITRUM,
 				library,
-				native: polygon,
-				contractABI: ABI.EIP721
+				native: arbitrum,
+				contractABI: ABI.EIP1155
 			})
 		);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,7 +47,7 @@ const PolygonEIP721Asset: React.FC<PolygonEIP721AssetProps> = ({ token }) => {
 
 	if (!valid || !metadata) return null;
 
-	return <Asset indicator={ChainIndicator.Polygon} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
+	return <Asset indicator={ChainIndicator.Arbitrum} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
 };
 
-export default PolygonEIP721Asset;
+export default ArbitrumEIP1155Asset;
