@@ -6,7 +6,7 @@ import useProviders from 'hooks/useProviders';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMetadata, selectAssetMetadata } from 'state/reducers/assets';
-import Asset, { ChainIndicator } from '../Asset';
+import Asset from '../Asset';
 
 export interface ArbitrumEIP721AssetProps {
 	token: Erc721Token;
@@ -47,7 +47,7 @@ const ArbitrumEIP721Asset: React.FC<ArbitrumEIP721AssetProps> = ({ token }) => {
 
 	if (!valid || !metadata) return null;
 
-	return <Asset indicator={ChainIndicator.Arbitrum} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
+	return <Asset chain={SupportedChainId.ARBITRUM} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
 };
 
 export default ArbitrumEIP721Asset;

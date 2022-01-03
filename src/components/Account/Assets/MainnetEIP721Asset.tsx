@@ -6,7 +6,7 @@ import useProviders from 'hooks/useProviders';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMetadata, selectAssetMetadata } from 'state/reducers/assets';
-import Asset, { ChainIndicator } from '../Asset';
+import Asset from '../Asset';
 
 export interface MainnetEIP721AssetProps {
 	token: EIP721Token;
@@ -47,7 +47,7 @@ const MainnetEIP721Asset: React.FC<MainnetEIP721AssetProps> = ({ token }) => {
 
 	if (!valid || !metadata) return null;
 
-	return <Asset indicator={ChainIndicator.Mainnet} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
+	return <Asset chain={SupportedChainId.MAINNET} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
 };
 
 export default MainnetEIP721Asset;

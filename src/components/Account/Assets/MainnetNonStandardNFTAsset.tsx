@@ -5,7 +5,7 @@ import useProviders from 'hooks/useProviders';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMainnetCryptopunksMetadata, selectAssetMetadata } from 'state/reducers/assets';
-import Asset, { ChainIndicator } from '../Asset';
+import Asset from '../Asset';
 
 export interface MainnetNonStandardNFTAssetProps {
 	token: Token;
@@ -37,7 +37,7 @@ const MainnetNonStandardNFTAsset: React.FC<MainnetNonStandardNFTAssetProps> = ({
 
 	if (!valid || !metadata) return null;
 
-	return <Asset indicator={ChainIndicator.Mainnet} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
+	return <Asset chain={SupportedChainId.MAINNET} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
 };
 
 export default MainnetNonStandardNFTAsset;

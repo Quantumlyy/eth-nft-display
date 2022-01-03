@@ -6,7 +6,7 @@ import useProviders from 'hooks/useProviders';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMetadata, selectAssetMetadata } from 'state/reducers/assets';
-import Asset, { ChainIndicator } from '../Asset';
+import Asset from '../Asset';
 
 export interface PolygonEIP1155AssetProps {
 	token: Erc1155Token;
@@ -47,7 +47,7 @@ const PolygonEIP1155Asset: React.FC<PolygonEIP1155AssetProps> = ({ token }) => {
 
 	if (!valid || !metadata) return null;
 
-	return <Asset indicator={ChainIndicator.Polygon} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
+	return <Asset chain={SupportedChainId.POLYGON} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
 };
 
 export default PolygonEIP1155Asset;
