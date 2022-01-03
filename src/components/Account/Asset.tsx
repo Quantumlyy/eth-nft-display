@@ -6,9 +6,10 @@ export const ChainLogo: { [K in SupportedChainId]: `${string}.${'svg' | 'png' | 
 	[SupportedChainId.MAINNET]: 'mainnet.webp',
 	[SupportedChainId.POLYGON]: 'polygon-light.svg',
 	[SupportedChainId.FANTOM]: 'fantom.svg',
+	[SupportedChainId.AVALANCHE]: 'avalanche.svg',
 	[SupportedChainId.OPTIMISM]: 'optimism.svg',
 	[SupportedChainId.ARBITRUM]: 'arbitrum.svg',
-	[SupportedChainId.AVALANCHE]: 'avalanche.svg'
+	[SupportedChainId.BOBA]: 'boba.png'
 };
 
 export const ChainIndicator: { [K in SupportedChainId]: `border-chain-${string}` } = {
@@ -17,7 +18,8 @@ export const ChainIndicator: { [K in SupportedChainId]: `border-chain-${string}`
 	[SupportedChainId.FANTOM]: 'border-chain-fantom',
 	[SupportedChainId.OPTIMISM]: 'border-chain-optimism',
 	[SupportedChainId.ARBITRUM]: 'border-chain-arbitrum',
-	[SupportedChainId.AVALANCHE]: 'border-chain-avalanche'
+	[SupportedChainId.AVALANCHE]: 'border-chain-avalanche',
+	[SupportedChainId.BOBA]: 'border-chain-boba'
 };
 
 export interface AssetProps {

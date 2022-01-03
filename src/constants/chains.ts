@@ -9,7 +9,8 @@ export enum SupportedChainId {
 	AVALANCHE = 43114,
 
 	OPTIMISM = 10,
-	ARBITRUM = 42161
+	ARBITRUM = 42161,
+	BOBA = 288
 }
 
 export const ALL_SUPPORTED_CHAIN_IDS: SupportedChainId[] = Object.values(SupportedChainId).filter(
@@ -20,11 +21,13 @@ export const L1_CHAIN_IDS = [SupportedChainId.MAINNET, SupportedChainId.POLYGON,
 
 export type SupportedL1ChainId = typeof L1_CHAIN_IDS[number];
 
-export const L2_CHAIN_IDS = [SupportedChainId.OPTIMISM, SupportedChainId.ARBITRUM] as const;
+export const L2_CHAIN_IDS = [SupportedChainId.OPTIMISM, SupportedChainId.ARBITRUM, SupportedChainId.BOBA] as const;
 
 export type SupportedL2ChainId = typeof L2_CHAIN_IDS[number];
 
-export const ALCHEMY_NETWORK_URLS: { [key in Exclude<SupportedChainId, SupportedChainId.FANTOM | SupportedChainId.AVALANCHE>]: string } = {
+export const ALCHEMY_NETWORK_URLS: {
+	[key in Exclude<SupportedChainId, SupportedChainId.FANTOM | SupportedChainId.AVALANCHE | SupportedChainId.BOBA>]: string;
+} = {
 	[SupportedChainId.MAINNET]: `https://eth-mainnet.alchemyapi.io/v2/${process.env.NEXT_PUBLIC_MAINNET_KEY}`,
 	[SupportedChainId.OPTIMISM]: `https://polygon-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_OPTIMISM_KEY}`,
 	[SupportedChainId.POLYGON]: `https://opt-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_POLYGON_KEY}`,
@@ -126,6 +129,16 @@ export const CHAIN_INFO: ChainInfoMap = {
 		addNetworkInfo: {
 			nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
 			rpcUrl: 'https://arb1.arbitrum.io/rpc'
+		}
+	},
+	[SupportedChainId.BOBA]: {
+		networkType: NetworkType.L2,
+		// blockWaitMsBeforeWarning: ms`25m`,
+		explorer: 'https://blockexplorer.boba.network/',
+		label: 'Boba L2',
+		addNetworkInfo: {
+			nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+			rpcUrl: 'https://mainnet.boba.network'
 		}
 	}
 };

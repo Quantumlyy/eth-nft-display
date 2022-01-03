@@ -35,3 +35,5 @@ export type OptEIP721Response<K extends keyof Omit<PlyEIP721Query, '__typename'>
 export type OptEIP1155Response<K extends keyof Omit<PlyEIP1155Query, '__typename'>> = Record<K, Omit<PlyEIP1155Query[K], '__typename'>>;
 export type ArbEIP721Response<K extends keyof Omit<PlyEIP721Query, '__typename'>> = Record<K, Omit<PlyEIP721Query[K], '__typename'>>;
 export type ArbEIP1155Response<K extends keyof Omit<PlyEIP1155Query, '__typename'>> = Record<K, Omit<PlyEIP1155Query[K], '__typename'>>;
+export type BobaEIP721Response<K extends keyof Omit<PlyEIP721Query, '__typename'>> = Record<K, Omit<PlyEIP721Query[K], '__typename'>>;
+export type BobaEIP1155Response<K extends keyof Omit<PlyEIP1155Query, '__typename'>> = Record<K, Omit<PlyEIP1155Query[K], '__typename'>>;

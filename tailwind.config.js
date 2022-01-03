@@ -21,7 +21,8 @@ module.exports = {
 					ethereum: '#627eea',
 					polygon: '#8247e5',
 					optimism: '#ff3856',
-					arbitrum: '#28a0f0'
+					arbitrum: '#28a0f0',
+					boba: '#d7fe44'
 				}
 			}
 		}

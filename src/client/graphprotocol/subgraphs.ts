@@ -12,5 +12,7 @@ export enum Subgraph {
 	OPTIMISM_EIP721 = 'https://api.thegraph.com/subgraphs/name/quantumlyy/eip721-subgraph-optimism', // @subgraphs/eip721-optimism or @subgraphs/eip721-matic
 	OPTIMISM_EIP1155 = 'https://api.thegraph.com/subgraphs/name/quantumlyy/eip1155-subgraph-optimism', // @subgraphs/eip1155-optimism or @subgraphs/eip1155-matic
 	ARBITRUM_EIP721 = 'https://api.thegraph.com/subgraphs/name/quantumlyy/eip721-subgraph-arbitrum',
-	ARBITRUM_EIP1155 = 'https://api.thegraph.com/subgraphs/name/quantumlyy/eip1155-subgraph-arbitrum'
+	ARBITRUM_EIP1155 = 'https://api.thegraph.com/subgraphs/name/quantumlyy/eip1155-subgraph-arbitrum',
+	BOBA_EIP721 = 'https://graph.mainnet.boba.network:8000/subgraphs/name/quantumlyy/eip721-subgraph-boba',
+	BOBA_EIP1155 = 'https://graph.mainnet.boba.network:8000/subgraphs/name/quantumlyy/eip1155-subgraph-boba'
 }

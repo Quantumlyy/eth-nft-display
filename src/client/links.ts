@@ -42,32 +42,52 @@ export const arbEIP721Link = new HttpLink({
 export const arbEIP1155Link = new HttpLink({
 	uri: Subgraph.ARBITRUM_EIP1155
 });
+export const bobaEIP721Link = new HttpLink({
+	uri: Subgraph.BOBA_EIP721
+});
+export const bobaEIP1155Link = new HttpLink({
+	uri: Subgraph.BOBA_EIP1155
+});
 
 /*
 This is a weird part of the approach but it's sadly needed. What happens is that we progressively chain ApolloLink splits to cover all bases.
 We need to cover the following:
- - Mainnet  EIP721, EIP1155, Non-standard
- - Polygon  EIP721, EIP1155
- - Fantom   EIP721, EIP1155
- - Optimism EIP721, EIP1155
- - Arbitrum EIP721, EIP1155
+ - Mainnet   EIP721, EIP1155, Non-standard
+ - Polygon   EIP721, EIP1155
+ - Fantom    EIP721, EIP1155
+ - Avalanche EIP721, EIP1155
+ - Optimism  EIP721, EIP1155
+ - Arbitrum  EIP721, EIP1155
+ - Boba      EIP721, EIP1155
+
 
 The naming of the variable follows the style of "{l-chain}{l-standard}_{r-chain}{r-standard}", `l-` and `r-` being the left and right options of an ApolloLink split.
 It would be best if `chain` could be 3 letters long for consistency.
 */
 
 // TODO: Convert into generating functions
+export const bobaEIP1155_ethEIP721 = ApolloLink.split(
+	(op) => op.getContext().subgraph === Subgraph.BOBA_EIP1155, //
+	bobaEIP1155Link,
+	ethEIP721Link
+);
 
-export const arbEIP1155_ethEIP721 = ApolloLink.split(
+export const bobaEIP721_bobaEIP1155 = ApolloLink.split(
+	(op) => op.getContext().subgraph === Subgraph.BOBA_EIP721,
+	bobaEIP721Link,
+	bobaEIP1155_ethEIP721
+);
+
+export const arbEIP1155_bobaEIP721 = ApolloLink.split(
 	(op) => op.getContext().subgraph === Subgraph.ARBITRUM_EIP1155, //
 	arbEIP1155Link,
-	ethEIP721Link
+	bobaEIP721_bobaEIP1155
 );
 
 export const arbEIP721_arbEIP1155 = ApolloLink.split(
 	(op) => op.getContext().subgraph === Subgraph.ARBITRUM_EIP721,
 	arbEIP721Link,
-	arbEIP1155_ethEIP721
+	arbEIP1155_bobaEIP721
 );
 
 export const optEIP1155_arbEIP721 = ApolloLink.split(
