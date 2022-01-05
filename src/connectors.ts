@@ -1,9 +1,9 @@
-import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
+// import { SafeAppConnector } from '@gnosis.pm/safe-apps-web3-react';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { ALCHEMY_NETWORK_URLS, ALL_SUPPORTED_CHAIN_IDS, SupportedChainId } from 'constants/chains';
 
-export const gnosisSafe = new SafeAppConnector();
+// export const gnosisSafe = new SafeAppConnector();
 
 export const metamask = new InjectedConnector({
 	supportedChainIds: ALL_SUPPORTED_CHAIN_IDS

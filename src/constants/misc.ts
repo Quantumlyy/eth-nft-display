@@ -1,1 +1,1 @@
-export const IS_IN_IFRAME = window && window.parent !== window;
+export const IS_IN_IFRAME = window !== undefined && window.parent !== window;

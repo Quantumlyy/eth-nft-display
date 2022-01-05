@@ -1,6 +1,6 @@
 import type { Erc721Token } from '@subgraphs/eip721-matic';
 import { ABI } from 'constants/abis';
-import { SupportedChainId } from 'constants/chains';
+import type { SupportedChainId } from 'constants/chains';
 import { useActiveWeb3React } from 'hooks/useActiveWeb3React';
 import useProviders from 'hooks/useProviders';
 import React, { useEffect, useState } from 'react';
@@ -8,23 +8,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchMetadata, selectAssetMetadata } from 'state/reducers/assets';
 import Asset from '../Asset';
 
-export interface PolygonEIP721AssetProps {
+export interface ChainEIP721AssetProps {
 	token: Erc721Token;
+	displayChainId: SupportedChainId;
 }
 
-const PolygonEIP721Asset: React.FC<PolygonEIP721AssetProps> = ({ token }) => {
+const ChainEIP721Asset: React.FC<ChainEIP721AssetProps> = ({ token, displayChainId }) => {
 	const { library, chainId } = useActiveWeb3React();
 	const dispatch = useDispatch();
-	const polygon = useProviders()[SupportedChainId.POLYGON];
+	const fallbackProvider = useProviders()[displayChainId];
 	const [valid, setValid] = useState(true);
 
-	const metadata = useSelector(selectAssetMetadata(SupportedChainId.POLYGON, token.contract.id, token.identifier));
+	const metadata = useSelector(selectAssetMetadata(displayChainId, token.contract.id, token.identifier));
 
 	useEffect(() => {
 		if (!token || !library || !chainId) {
 			setValid(false);
 			return;
 		}
+
+		if (metadata) return;
 
 		dispatch(
 			fetchMetadata({
@@ -36,9 +39,9 @@ const PolygonEIP721Asset: React.FC<PolygonEIP721AssetProps> = ({ token }) => {
 					}
 				},
 				activeChainId: chainId,
-				displayChainId: SupportedChainId.POLYGON,
+				displayChainId,
 				library,
-				native: polygon,
+				native: fallbackProvider,
 				contractABI: ABI.EIP721
 			})
 		);
@@ -47,7 +50,7 @@ const PolygonEIP721Asset: React.FC<PolygonEIP721AssetProps> = ({ token }) => {
 
 	if (!valid || !metadata) return null;
 
-	return <Asset chain={SupportedChainId.POLYGON} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
+	return <Asset chain={displayChainId} collection={metadata.collection || ''} name={metadata.name} image={metadata.image_final} />;
 };
 
-export default PolygonEIP721Asset;
+export default ChainEIP721Asset;
