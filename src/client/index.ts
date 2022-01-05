@@ -25,18 +25,6 @@ export type EthNonStandardNFTsResponse<K extends keyof Omit<NonStandardNFTsQuery
 	K,
 	Omit<NonStandardNFTsQuery[K], '__typename'>
 >;
-export type PlyEIP721Response<K extends keyof Omit<PlyEIP721Query, '__typename'>> = Record<K, Omit<PlyEIP721Query[K], '__typename'>>;
-export type PlyEIP1155Response<K extends keyof Omit<PlyEIP1155Query, '__typename'>> = Record<K, Omit<PlyEIP1155Query[K], '__typename'>>;
-export type FtmEIP721Response<K extends keyof Omit<PlyEIP721Query, '__typename'>> = Record<K, Omit<PlyEIP721Query[K], '__typename'>>;
-export type FtmEIP1155Response<K extends keyof Omit<PlyEIP1155Query, '__typename'>> = Record<K, Omit<PlyEIP1155Query[K], '__typename'>>;
-export type AvaxEIP721Response<K extends keyof Omit<PlyEIP721Query, '__typename'>> = Record<K, Omit<PlyEIP721Query[K], '__typename'>>;
-export type AvaxEIP1155Response<K extends keyof Omit<PlyEIP1155Query, '__typename'>> = Record<K, Omit<PlyEIP1155Query[K], '__typename'>>;
-export type OptEIP721Response<K extends keyof Omit<PlyEIP721Query, '__typename'>> = Record<K, Omit<PlyEIP721Query[K], '__typename'>>;
-export type OptEIP1155Response<K extends keyof Omit<PlyEIP1155Query, '__typename'>> = Record<K, Omit<PlyEIP1155Query[K], '__typename'>>;
-export type ArbEIP721Response<K extends keyof Omit<PlyEIP721Query, '__typename'>> = Record<K, Omit<PlyEIP721Query[K], '__typename'>>;
-export type ArbEIP1155Response<K extends keyof Omit<PlyEIP1155Query, '__typename'>> = Record<K, Omit<PlyEIP1155Query[K], '__typename'>>;
-export type BobaEIP721Response<K extends keyof Omit<PlyEIP721Query, '__typename'>> = Record<K, Omit<PlyEIP721Query[K], '__typename'>>;
-export type BobaEIP1155Response<K extends keyof Omit<PlyEIP1155Query, '__typename'>> = Record<K, Omit<PlyEIP1155Query[K], '__typename'>>;
 
 // Default/standard types
 export type EIP721Response<K extends keyof Omit<PlyEIP721Query, '__typename'>> = Record<K, Omit<PlyEIP721Query[K], '__typename'>>;
