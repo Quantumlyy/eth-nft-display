@@ -1,4 +1,4 @@
-import { AlchemyProvider, JsonRpcProvider } from '@ethersproject/providers';
+import { AlchemyProvider, JsonRpcProvider, Provider } from '@ethersproject/providers';
 import { SupportedChainId } from 'constants/chains';
 
 const mainnetAlchemyProvider = new AlchemyProvider(SupportedChainId.MAINNET, process.env.NEXT_PUBLIC_MAINNET_KEY);
@@ -9,14 +9,14 @@ const optimismAlchemyProvider = new AlchemyProvider(SupportedChainId.OPTIMISM, p
 const arbitrumAlchemyProvider = new AlchemyProvider(SupportedChainId.ARBITRUM, process.env.NEXT_PUBLIC_ARBITRUM_KEY);
 const bobaProvider = new JsonRpcProvider('https://lightning-replica.boba.network', SupportedChainId.BOBA);
 
-export default function useProviders() {
+export default function useProviders(): { [K in SupportedChainId]: Provider } {
 	return {
-		mainnet: mainnetAlchemyProvider,
-		polygon: polygonAlchemyProvider,
-		fantom: fantomProvider,
-		avalanche: avalancheProvider,
-		optimism: optimismAlchemyProvider,
-		arbitrum: arbitrumAlchemyProvider,
-		boba: bobaProvider
+		[SupportedChainId.MAINNET]: mainnetAlchemyProvider,
+		[SupportedChainId.POLYGON]: polygonAlchemyProvider,
+		[SupportedChainId.FANTOM]: fantomProvider,
+		[SupportedChainId.AVALANCHE]: avalancheProvider,
+		[SupportedChainId.OPTIMISM]: optimismAlchemyProvider,
+		[SupportedChainId.ARBITRUM]: arbitrumAlchemyProvider,
+		[SupportedChainId.BOBA]: bobaProvider
 	};
 }

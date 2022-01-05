@@ -1,9 +1,10 @@
+import { SupportedChainId } from 'constants/chains';
 import { useEffect, useState } from 'react';
 import { noop } from 'utils/utils';
 import useProviders from './useProviders';
 
 export default function useENSName(address?: string | null) {
-	const { mainnet } = useProviders();
+	const mainnet = useProviders()[SupportedChainId.MAINNET];
 	const [ENSName, setENSName] = useState('');
 
 	// @ts-expect-error Not all code paths return a value.

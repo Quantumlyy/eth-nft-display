@@ -15,7 +15,7 @@ export interface BobaEIP1155AssetProps {
 const BobaEIP1155Asset: React.FC<BobaEIP1155AssetProps> = ({ token }) => {
 	const { library, chainId } = useActiveWeb3React();
 	const dispatch = useDispatch();
-	const { boba } = useProviders();
+	const boba = useProviders()[SupportedChainId.BOBA];
 	const [valid, setValid] = useState(true);
 
 	const metadata = useSelector(selectAssetMetadata(SupportedChainId.BOBA, token.contract.id, token.identifier));

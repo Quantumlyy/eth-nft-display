@@ -15,7 +15,7 @@ export interface OptimismEIP721AssetProps {
 const OptimismEIP721Asset: React.FC<OptimismEIP721AssetProps> = ({ token }) => {
 	const { library, chainId } = useActiveWeb3React();
 	const dispatch = useDispatch();
-	const { optimism } = useProviders();
+	const optimism = useProviders()[SupportedChainId.OPTIMISM];
 	const [valid, setValid] = useState(true);
 
 	const metadata = useSelector(selectAssetMetadata(SupportedChainId.OPTIMISM, token.contract.id, token.identifier));

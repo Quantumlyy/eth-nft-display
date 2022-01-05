@@ -15,7 +15,7 @@ export interface PolygonEIP721AssetProps {
 const PolygonEIP721Asset: React.FC<PolygonEIP721AssetProps> = ({ token }) => {
 	const { library, chainId } = useActiveWeb3React();
 	const dispatch = useDispatch();
-	const { polygon } = useProviders();
+	const polygon = useProviders()[SupportedChainId.POLYGON];
 	const [valid, setValid] = useState(true);
 
 	const metadata = useSelector(selectAssetMetadata(SupportedChainId.POLYGON, token.contract.id, token.identifier));

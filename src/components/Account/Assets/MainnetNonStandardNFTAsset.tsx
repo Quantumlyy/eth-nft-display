@@ -13,7 +13,7 @@ export interface MainnetNonStandardNFTAssetProps {
 
 const MainnetNonStandardNFTAsset: React.FC<MainnetNonStandardNFTAssetProps> = ({ token }) => {
 	const { library, chainId } = useActiveWeb3React();
-	const { mainnet } = useProviders();
+	const mainnet = useProviders()[SupportedChainId.MAINNET];
 	const dispatch = useDispatch();
 	const [valid, setValid] = useState(true);
 

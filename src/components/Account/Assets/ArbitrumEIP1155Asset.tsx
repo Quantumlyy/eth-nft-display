@@ -15,7 +15,7 @@ export interface ArbitrumEIP1155AssetProps {
 const ArbitrumEIP1155Asset: React.FC<ArbitrumEIP1155AssetProps> = ({ token }) => {
 	const { library, chainId } = useActiveWeb3React();
 	const dispatch = useDispatch();
-	const { arbitrum } = useProviders();
+	const arbitrum = useProviders()[SupportedChainId.ARBITRUM];
 	const [valid, setValid] = useState(true);
 
 	const metadata = useSelector(selectAssetMetadata(SupportedChainId.ARBITRUM, token.contract.id, token.identifier));

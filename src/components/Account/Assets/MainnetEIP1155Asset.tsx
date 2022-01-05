@@ -15,7 +15,7 @@ export interface MainnetEIP1155AssetProps {
 const MainnetEIP1155Asset: React.FC<MainnetEIP1155AssetProps> = ({ token }) => {
 	const { library, chainId } = useActiveWeb3React();
 	const dispatch = useDispatch();
-	const { mainnet } = useProviders();
+	const mainnet = useProviders()[SupportedChainId.MAINNET];
 	const [valid, setValid] = useState(true);
 
 	const metadata = useSelector(selectAssetMetadata(SupportedChainId.MAINNET, token.registry.id, token.identifier));
