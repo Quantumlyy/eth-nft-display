@@ -20,6 +20,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
+    "@gnosis.pm/safe-apps-web3-react": "^0.6.7",
     "@headlessui/react": "^1.4.2",
     "@metamask/onboarding": "^1.0.1",
     "@reduxjs/toolkit": "^1.7.1",

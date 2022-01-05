@@ -1,4 +1,5 @@
-import { metamask } from 'connectors';
+import { gnosisSafe, metamask } from 'connectors';
+import { IS_IN_IFRAME } from 'constants/misc';
 import { useEffect, useState } from 'react';
 import { useActiveWeb3React } from './useActiveWeb3React';
 
@@ -6,18 +7,35 @@ export default function useEagerConnect(): boolean {
 	const { activate, active } = useActiveWeb3React();
 
 	const [tried, setTried] = useState(false);
+	const [triedSafe, setTriedSafe] = useState(!IS_IN_IFRAME);
 
 	useEffect(() => {
-		metamask.isAuthorized().then((isAuthorized) => {
-			if (isAuthorized) {
-				activate(metamask, undefined, true).catch(() => {
+		if (!triedSafe) {
+			gnosisSafe.isSafeApp().then((loadedInSafe) => {
+				if (loadedInSafe) {
+					activate(gnosisSafe, undefined, true).catch(() => {
+						setTriedSafe(true);
+					});
+				} else {
+					setTriedSafe(true);
+				}
+			});
+		}
+	}, [activate, setTriedSafe, triedSafe]);
+
+	useEffect(() => {
+		if (!active && triedSafe) {
+			metamask.isAuthorized().then((isAuthorized) => {
+				if (isAuthorized) {
+					activate(metamask, undefined, true).catch(() => {
+						setTried(true);
+					});
+				} else {
 					setTried(true);
-				});
-			} else {
-				setTried(true);
-			}
-		});
-	}, [activate]);
+				}
+			});
+		}
+	}, [activate, active, triedSafe]);
 
 	// if the connection worked, wait until we get confirmation of that to flip the flag
 	useEffect(() => {
