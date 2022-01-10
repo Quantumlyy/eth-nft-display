@@ -1,6 +1,5 @@
 import { ExternalProvider, JsonRpcFetchFunc, Web3Provider } from '@ethersproject/providers';
 import { Web3ReactProvider } from '@web3-react/core';
-import Connect from 'components/Connect/Connect';
 import Navbar from 'components/Navbar/Navbar';
 import type { NextPage } from 'next';
 import type { AppProps } from 'next/app';
@@ -13,7 +12,10 @@ import { config, dom } from '@fortawesome/fontawesome-svg-core';
 import Head from 'next/head';
 import { ApolloProvider } from '@apollo/client';
 import { client } from 'client';
+import dynamic from 'next/dynamic';
 config.autoAddCss = false;
+
+const Connect = dynamic(() => import('components/Connect/Connect'), { ssr: false });
 
 const getLibrary = (provider: ExternalProvider | JsonRpcFetchFunc) => {
 	return new Web3Provider(provider);
