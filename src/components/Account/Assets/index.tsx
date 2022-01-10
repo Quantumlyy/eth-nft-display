@@ -5,7 +5,6 @@ import useENSDomain from 'hooks/useENSDomain';
 import React from 'react';
 import ChainEIP1155Assets from './ChainEIP1155Assets';
 import ChainEIP721Assets from './ChainEIP721Assets';
-import MainnetEIP1155Assets from './MainnetEIP1155Assets';
 import MainnetEIP721Assets from './MainnetEIP721Assets';
 import MainnetNonStandardNFTAssets from './MainnetNonStandardNFTAssets';
 
@@ -22,7 +21,7 @@ const Assets: React.FC<AssetsProps> = ({ address }) => {
 		<div className="container">
 			<div className="flex flex-wrap gap-8">
 				<MainnetEIP721Assets address={sortedAddress} />
-				<MainnetEIP1155Assets address={sortedAddress} />
+				<ChainEIP1155Assets address={sortedAddress} chainId={SupportedChainId.MAINNET} subgraph={Subgraph.MAINNET_EIP1155} />
 				<MainnetNonStandardNFTAssets address={sortedAddress} />
 				<ChainEIP721Assets address={sortedAddress} chainId={SupportedChainId.POLYGON} subgraph={Subgraph.POLYGON_EIP721} />
 				<ChainEIP1155Assets address={sortedAddress} chainId={SupportedChainId.POLYGON} subgraph={Subgraph.POLYGON_EIP1155} />
