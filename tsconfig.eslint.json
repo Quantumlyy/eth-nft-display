@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"allowJs": true,
-		"checkJs": true
+		"checkJs": true,
 	},
 	"include": ["scripts", "src", "*.config.js"],
 	"exclude": ["src/next-env.d.ts", "src/next.config.js"]

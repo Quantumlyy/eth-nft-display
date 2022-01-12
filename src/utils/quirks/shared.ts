@@ -3,10 +3,16 @@ import { CRYPTOPUNKS_DATA_ABI } from 'constants/abis';
 import { SupportedChainId } from 'constants/chains';
 import { Contract } from 'ethers';
 import type { Token } from 'types/token';
-import { EthCryptopunksContract, EthCryptopunksDataContract, EthNiftyContract, EthOpenSeaSharedStorefront } from '.';
+import { EthCryptopunksContract, EthCryptopunksDataContract, EthNiftyContract, EthOpenSeaSharedStorefront, MaticOpenSeaSharedStorefront } from '.';
 
 export function quirkEthOSStorefront(uri: string, chainId: number, token: Token, proxy: boolean): [uri: string, proxy: boolean] {
 	if (chainId === SupportedChainId.MAINNET && token.contract.id === EthOpenSeaSharedStorefront)
+		return [uri.replace('0x{id}', `${token.identifier}`), false];
+	return [uri, proxy];
+}
+
+export function quirkMaticOSStorefront(uri: string, chainId: number, token: Token, proxy: boolean): [uri: string, proxy: boolean] {
+	if (chainId === SupportedChainId.POLYGON && token.contract.id === MaticOpenSeaSharedStorefront)
 		return [uri.replace('0x{id}', `${token.identifier}`), false];
 	return [uri, proxy];
 }

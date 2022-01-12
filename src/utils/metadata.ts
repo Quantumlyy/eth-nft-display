@@ -1,6 +1,6 @@
 import type { BaseMetadata } from 'types/metadata';
 import type { Token } from 'types/token';
-import { quirkEthNifty, quirkEthOSStorefront } from './quirks/shared';
+import { quirkEthNifty, quirkEthOSStorefront, quirkMaticOSStorefront } from './quirks/shared';
 
 export type MetadataParsingData<T = BaseMetadata | undefined> = [metadata: T, valid: boolean];
 export type MetadataParsingReturn<T = BaseMetadata | undefined> = MetadataParsingData<T> | Promise<MetadataParsingData<T>>;
@@ -23,6 +23,7 @@ export function metadataAPI(uri: string, _activeChainId: number, displayChainId:
 	if (!uri) return [undefined, false];
 	// eslint-disable-next-line prettier/prettier
 	[uri, shouldProxy] = quirkEthOSStorefront(uri, displayChainId, token, shouldProxy);
+	[uri, shouldProxy] = quirkMaticOSStorefront(uri, displayChainId, token, shouldProxy);
 	[uri, shouldProxy] = quirkEthNifty(uri, displayChainId, token, shouldProxy);
 
 	return fetch(`${shouldProxy ? process.env.NEXT_PUBLIC_CORS_PROXY : ''}${uri.trim()}`)

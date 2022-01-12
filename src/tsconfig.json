@@ -15,20 +15,8 @@
 		"tsBuildInfoFile": "./.tsbuildinfo",
 		"baseUrl": ".",
 		"rootDir": ".",
-		/* "paths": {
-			"@config/*": ["config/*"],
-			"@contexts/*": ["contexts/*"],
-			"@assets/*": ["components/assets/*"],
-			// "@mods/*": ["components/mods/*"],
-			"@mui/*": ["components/material/*"],
-			"@next/*": ["components/next/*"],
-			// "@pages/*": ["components/pages/*"],
-			"@presentational/*": ["components/presentational/*"],
-			"@routing/*": ["components/routing/*"],
-			"@components/*": ["components/*"],
-			"@utils/*": ["utils/*"]
-		}, */
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"importsNotUsedAsValues": "remove"
 	},
 	"include": ["."],
 	"exclude": ["public/sw.js", "public/workbox*.js", ".next", "out"]
